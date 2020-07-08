@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "express": "^4.17.1",
-    "npx": "^10.2.2",
-    "sequelize": "^6.3.0",
-    "sqlite3": "^5.0.0",
     "body-parser": "^1.19.0",
-    "mysql2": "^2.1.0"
+    "express": "^4.17.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^6.3.0",
+    "sqlite3": "^5.0.0"
   },
   "scripts": {
     "start": "nodemon index.js",
@@ -20,6 +19,7 @@
   "devDependencies": {
     "jest": "^26.0.1",
     "supertest": "^4.0.2",
-    "sequelize-cli": "^6.2.0"
+    "sequelize-cli": "^6.2.0",
+    "npx": "^10.2.2"
   }
 }
