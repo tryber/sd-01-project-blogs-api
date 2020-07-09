@@ -2,30 +2,40 @@
 
 module.exports = {
   up: async (queryInterface, DataTypes) => {
-    const UsersTable = queryInterface.createTable("Users", {
+    const PostTable = queryInterface.createTable("Posts", {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
         autoIncrement: true,
       },
-      displayName: {
+      title: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      email: {
+      content: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      image: {
-        allowNull: false,
-        type: DataTypes.STRING,
+      userId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+        allowNull: false
       },
-    })
+      published: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
+      updated: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
+    });
 
-    return UsersTable;
+    return PostTable;
   },
-
   down: async (queryInterface) => queryInterface.dropTable("Posts")
-    .then(() => queryInterface.dropTable("Users")),
 };
