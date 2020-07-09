@@ -1,19 +1,18 @@
 const express = require('express');
-const { User } = require('../models');
+const User = require('../../infrastructure/user/UserRepository');
 const router = express.Router();
-const rescue = require('../../middleware/rescue')
+// const rescue = require('../../middleware/rescue')
 
-const login = (req, res, next) => {
- User.findAll()
-    .then(users => {
-      res.status(200).json(users);
+const getAll = async (req, res, next) => {
+  await User.findAll()
+    .then(userResponse => {
+      res.status(200).json(userResponse);
     })
-    .catch(e => {
-      console.log(e.message);
-      res.status(500).json({ message: 'Algo deu errado' });
+    .catch(error => {
+      res.status(400).send(error);
     });
-}
+};
 
-router.post('/', rescue(login));
+router.get('/', getAll);
 
 module.exports = router;
