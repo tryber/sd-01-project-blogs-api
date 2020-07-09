@@ -1,5 +1,14 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 
-app.listen(3000, () => console.log('ouvindo porta 3000!'));
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/users/', require('./application/user/userController'));
+app.use('/login/', require('./application/user/userLogin'));
+
+app.listen(3000, () => {
+  console.log('App ouvindo a porta 3000!!');
+}); 

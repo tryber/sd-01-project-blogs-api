@@ -4,11 +4,7 @@ const { User } = require('../database/models');
 
 class UserRepository {
   async getAll() {
-    const user = await User.findAll({
-      where: {
-        isVisible: true,
-      },
-    });
+    const user = await User.findAll();
 
     return user.map(UserMapper.toEntity);
   }
@@ -36,6 +32,22 @@ class UserRepository {
       throw error;
     }
   }
+
+  async _getByEmail(email) {
+    try {
+      return await User.findBy(id, { rejectOnEmpty: true });
+    } catch (error) {
+      if (error.name === 'SequelizeEmptyResultError') {
+        const notFoundError = new Error('NotFoundError');
+        notFoundError.details = `User com identificador ${id} não foi encontrado.`;
+
+        throw notFoundError;
+      }
+
+      throw error;
+    }
+  }
+
   async getById(id) {
     const user = await this._getById(id);
 

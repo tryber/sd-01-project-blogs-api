@@ -4,8 +4,8 @@ const Post = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     content: DataTypes.STRING,
     userId: DataTypes.INTEGER,
-    published: Sequelize.DATE,
-    updated: Sequelize.DATE
+    published: DataTypes.DATE,
+    updated: DataTypes.DATE
   },{
     updatedAt: 'updated',
     createdAt: 'published'

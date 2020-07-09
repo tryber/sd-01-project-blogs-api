@@ -2,11 +2,6 @@ const { attributes } = require('structure');
 
 const User = attributes({
   id: Number,
-  title: {
-    type: String,
-    required: true,
-    maxLength: 150,
-  },
   displayName: {
     type: String,
     required: true,
@@ -24,7 +19,9 @@ const User = attributes({
   },
 })(
   class User {
-
+    isValidUser() {
+      return this.email
+    }
   }
 );
 

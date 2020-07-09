@@ -1,0 +1,22 @@
+const express = require('express');
+const UserRepository = require('../../infrastructure/user/UserRepository');
+const User = require('../../domain/user');
+const service = require('../../infrastructure/user/serviceUser');
+const router = express.Router();
+
+router.post('/', (req, res, next) => {
+  const { email, password } = req.body;
+  if (service.validateUserData(email, password)) return res.status(500).json({ message: 'Algo deu errado' });
+  
+  // new UserRepository()
+  //   .getAll()
+  //   .then((users) => {
+  //     res.status(200).json(users);
+  //   })
+  //   .catch((e) => {
+  //     console.log(e.message);
+  //     res.status(500).json({ message: 'Algo deu errado' });
+  //   });
+});
+
+module.exports = router;
