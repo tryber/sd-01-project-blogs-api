@@ -10,6 +10,10 @@ const User = attributes({
     type: String,
     required: true,
   },
+  image: {
+    type: String,
+    required: true,
+  },
   createdAt: Date,
   updatedAt: Date,
 })(

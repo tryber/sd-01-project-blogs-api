@@ -1,9 +1,9 @@
 const User = (sequelize, DataTypes) => {
-  const User = sequelize.define('user', {
+  const User = sequelize.define('User', {
     displayName: DataTypes.STRING,
     email: DataTypes.STRING,
+    image: DataTypes.STRING,
   });
-  console.log('retorno', User)
 
   return User;
 };

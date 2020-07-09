@@ -2,15 +2,15 @@ const User = require('../../domain/user');
 
 const UserMapper = {
   toEntity({ dataValues }) {
-    const { id, displayName, email } = dataValues;
+    const { id, displayName, email, image } = dataValues;
 
-    return new User({ id, displayName, email });
+    return new User({ id, displayName, email, image });
   },
 
   toDatabase(survivor) {
-    const { text, isVisible } = survivor;
+    const { displayName, email, image } = survivor;
 
-    return { text, isVisible };
+    return { displayName, email, image };
   },
 };
 
