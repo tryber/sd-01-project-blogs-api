@@ -1,11 +1,10 @@
 const express = require('express');
-const Users = require('../../infrastructure/database/models/Users');
+const UserRepository = require('../../infrastructure/user/UserRepository');
 const router = express.Router();
 
-console.log(Users);
-
 router.get('/', (_req, res) => {
-  Users.findAll()
+  const users = new UserRepository;
+  return users.getAll()
     .then((user) => {
       res.status(200).json(user);
     })
