@@ -1,16 +1,19 @@
 const UserMapper = require('./UserMapper');
-
 const { User } = require('../database/models');
 
 class UserRepository {
   async getAll() {
-    console.log(User);
     const users = await User.findAll();
 
     return users.map(UserMapper.toEntity);
   }
 
-  async create(users) {
+  async _getByEmail(email) {
+    const findEmail = await User.findOne({ where: { email } })
+    if (findEmail) throw new Error('SequelizeEmailFindError');
+  }
+
+  async create(users, { email }) {
     const { valid, errors } = users.validate();
 
     if (!valid) {
@@ -19,9 +22,10 @@ class UserRepository {
 
       throw error;
     }
+    await this._getByEmail(email);
 
-    const newUser = await User.create(UserMapper.toDatabase(users));
-    return UserMapper.toEntity(newUser);
+    const { dataValues } = await User.create(UserMapper.toDatabase(users));
+    return dataValues;
   }
 
   async _getById(id) {
@@ -46,9 +50,9 @@ class UserRepository {
   }
 
   async remove(id) {
-    const tweet = await this._getById(id);
+    const user = await this._getById(id);
 
-    await tweet.destroy();
+    await user.destroy();
     return;
   }
 }

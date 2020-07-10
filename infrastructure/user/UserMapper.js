@@ -1,4 +1,5 @@
 const User = require('../../domain/user');
+const { encrypt } = require('../../services/crypto');
 
 const UserMapper = {
   toEntity({ dataValues }) {
@@ -8,9 +9,9 @@ const UserMapper = {
   },
 
   toDatabase(survivor) {
-    const { displayName, email, image } = survivor;
+    const { displayName, email, image, password } = survivor;
 
-    return { displayName, email, image };
+    return { displayName, email, image, password: encrypt(password) };
   },
 };
 
