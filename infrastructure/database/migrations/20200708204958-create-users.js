@@ -19,6 +19,10 @@ const factory = DataTypes => ({
     allowNull: false,
     type: DataTypes.STRING,
   },
+  password: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
 });
 
 module.exports = {

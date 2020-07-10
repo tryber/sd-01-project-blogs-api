@@ -10,14 +10,10 @@ const User = attributes({
     type: String,
     required: true,
   },
-  createdAt: Date,
-  updatedAt: Date,
-})(
-  class User {
-    // dataUser() {
-    //   return this;
-    // }
+  image: {
+    type: String,
+    required: true,
   },
-);
+})(class User {});
 
 module.exports = User;
