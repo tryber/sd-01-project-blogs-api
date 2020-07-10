@@ -2,13 +2,14 @@ const express = require('express');
 
 const bodyParser = require('body-parser');
 
-// const router = require('./routes');
+const { getAllUser, createUser } = require('./routes');
 
 const app = express();
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/user', require('../application/user/userController'));
+app.get('/user', getAllUser);
+app.post('/user', createUser);
 
 module.exports = app;

@@ -15,7 +15,7 @@ const User = attributes({
     required: true,
   },
 })(
-  class User {}
+  class User { }
 )
 
 module.exports = User;

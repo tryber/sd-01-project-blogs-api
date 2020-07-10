@@ -1,5 +1,6 @@
-// const { User } = require('../application/user/userController');
+const { getAllUser, createUser } = require('../application/user/userController');
 
-// module.exports = {
-//   User,
-// };
+module.exports = {
+  getAllUser,
+  createUser
+};
