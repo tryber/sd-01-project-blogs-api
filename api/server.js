@@ -11,6 +11,7 @@ app.use(cors());
 
 app.use('/user', router.userRouter);
 app.use('/login', router.loginRouter);
+app.use('/post', router.blogPostRouter);
 
 app.use('*', (_req, res) => res.status(404).json({ message: 'Página não encontrada' }));
 

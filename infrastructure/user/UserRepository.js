@@ -8,12 +8,7 @@ class UserRepository {
     return users.map(UserMapper.toEntity);
   }
 
-  async _getByEmail(email) {
-    const findEmail = await User.findOne({ where: { email } })
-    if (findEmail) throw new Error('SequelizeEmailFindError');
-  }
-
-  async create(users, { email }) {
+  async create(users) {
     const { valid, errors } = users.validate();
 
     if (!valid) {
@@ -22,7 +17,6 @@ class UserRepository {
 
       throw error;
     }
-    await this._getByEmail(email);
 
     const { dataValues } = await User.create(UserMapper.toDatabase(users));
     return dataValues;

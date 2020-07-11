@@ -2,9 +2,10 @@ const express = require('express');
 
 const UserRepository = require('../../infrastructure/user/UserRepository');
 const User = require('../../domain/user');
-const { authorizationValid, createUserValid, deleteUserValid } = require('../../middlewares/userValid');
+const { createUserValid, deleteUserValid } = require('../../middlewares/userValid');
+const { authorizationValid } = require('../../middlewares/authorizationValid');
 const createJWT = require('../../services/createJWT');
-const { emailInvalid, rescue } = require('../../middlewares/rescue')
+const { emailAlreadyExist, rescue } = require('../../middlewares/rescue')
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ const createUser = async (req, res) => {
 
   const user = new User({ displayName, email, image, password });
 
-  const newUser = await new UserRepository().create(user, req.body);
+  const newUser = await new UserRepository().create(user);
 
   const token = createJWT(newUser);
   res.status(201).json({ token });
@@ -31,10 +32,10 @@ const detailUser = async (req, res, _next) => {
 
 const deleteUser = async (req, res) => {
   await new UserRepository().remove(req.params.id)
-  res.status(204);
+  res.status(204).send();
 };
 
-router.post('/', createUserValid, emailInvalid(createUser));
+router.post('/', createUserValid, emailAlreadyExist(createUser));
 
 router.use(authorizationValid);
 

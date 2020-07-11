@@ -2,19 +2,7 @@ const tokenValid = require('../services/verifyJWT');
 const { isEmailValid, isPasswordValid, isNameValid, } = require('../services/dataUserValid');
 const { errorReadingJWT, rescue } = require('./rescue');
 
-const authorizationValid = errorReadingJWT((req, res, next) => {
-  const token = req.headers.authorization;
-
-  if (!token) return res.status(401).json({ message: 'Usuário não autorizado!' });
-
-  const payload = tokenValid(token);
-
-  if (!payload) return res.status(401).json({ message: 'Usuário não autorizado!' });
-
-  next();
-});
-
-const createUserValid = rescue((req, res, next) => {
+exports.createUserValid = rescue((req, res, next) => {
   const { displayName, email, password } = req.body;
 
   if (!isNameValid(displayName))
@@ -29,7 +17,7 @@ const createUserValid = rescue((req, res, next) => {
   next();
 });
 
-const deleteUserValid = errorReadingJWT((req, res, next) => {
+exports.deleteUserValid = errorReadingJWT((req, res, next) => {
   const token = req.headers.authorization;
   const { id } = req.params;
 
@@ -39,5 +27,3 @@ const deleteUserValid = errorReadingJWT((req, res, next) => {
 
   next();
 });
-
-module.exports = { authorizationValid, createUserValid, deleteUserValid };
