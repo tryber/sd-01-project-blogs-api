@@ -32,13 +32,7 @@ class UserRepository {
     try {
       return await User.findByPk(id, { rejectOnEmpty: true });
     } catch (error) {
-      if (error.name === 'SequelizeEmptyResultError') {
-        const notFoundError = new Error('NotFoundError');
-        notFoundError.details = `User com identificador ${id} não foi encontrado.`;
-
-        throw notFoundError;
-      }
-
+      if (error.name === 'SequelizeEmptyResultError') throw new Error('Usuário não encontrado');
       throw error;
     }
   }
@@ -55,6 +49,19 @@ class UserRepository {
     await user.destroy();
     return;
   }
+
+  async _loginValidEmail(email) {
+    const findEmail = await User.findOne({ where: { email } })
+    if (!findEmail) throw new Error('SequelizeEmailNotFound');
+    return findEmail;
+  }
+
+  async login({ email }) {
+    const user = await this._loginValidEmail(email);
+
+    return UserMapper.toEntity(user);
+  }
+  
 }
 
 module.exports = UserRepository;

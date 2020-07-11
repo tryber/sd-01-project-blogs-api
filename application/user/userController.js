@@ -4,71 +4,42 @@ const UserRepository = require('../../infrastructure/user/UserRepository');
 const User = require('../../domain/user');
 const { authorizationValid, createUserValid, deleteUserValid } = require('../../middlewares/userValid');
 const createJWT = require('../../services/createJWT');
-const { emailAlreadyExist } = require('../../middlewares/rescue')
+const { emailInvalid, rescue } = require('../../middlewares/rescue')
 
 const router = express.Router();
 
-const listUser = (_req, res, _next) => {
-  new UserRepository()
-    .getAll()
-    .then((users) => {
-      res.status(200).json(users);
-    })
-    .catch((e) => {
-      console.log(e.message);
-      res.status(500).json({ message: 'Algo deu errado' });
-    });
+const listUser = async (_req, res, _next) => {
+  const listUser = await new UserRepository().getAll();
+  res.status(200).json(listUser);
 };
 
 const createUser = async (req, res) => {
   const { displayName, email, image, password } = req.body;
 
-  const user = new User({
-    displayName,
-    email,
-    image,
-    password,
-  });
+  const user = new User({ displayName, email, image, password });
 
   const newUser = await new UserRepository().create(user, req.body);
+
   const token = createJWT(newUser);
   res.status(201).json({ token });
 };
 
-const detailUser = (req, res, _next) => {
-  new UserRepository()
-    .getById(req.params.id)
-    .then((user) => {
-      if (user === null) {
-        res.status(404).send({ message: 'User não encontrado' });
-      }
-
-      res.status(200).json(user);
-    })
-    .catch((e) => {
-      console.log(e.message);
-      res.status(500).json({ message: 'Algo deu errado' });
-    });
+const detailUser = async (req, res, _next) => {
+  const detailUser = await new UserRepository().getById(req.params.id);
+  res.status(200).json(detailUser);
 };
 
-const deleteUser = (req, res) => {
-  new UserRepository()
-    .remove(req.params.id)
-    .then(() => {
-      res.status(204).send({ message: 'Usuario excluído com sucesso.' });
-    })
-    .catch((e) => {
-      console.log(e.message);
-      res.status(500).send({ message: 'Algo deu errado: ' });
-    });
+const deleteUser = async (req, res) => {
+  await new UserRepository().remove(req.params.id)
+  res.status(204);
 };
 
-router.post('/', createUserValid, emailAlreadyExist(createUser));
+router.post('/', createUserValid, emailInvalid(createUser));
 
 router.use(authorizationValid);
 
-router.get('/', listUser);
-router.get('/:id', detailUser);
-router.delete('/:id', deleteUserValid, deleteUser);
+router.get('/', rescue(listUser));
+router.get('/:id', rescue(detailUser));
+router.delete('/:id', deleteUserValid, rescue(deleteUser));
 
-module.exports = router;
+module.exports = { userRouter: router };

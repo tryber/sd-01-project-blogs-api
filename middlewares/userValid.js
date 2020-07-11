@@ -1,6 +1,6 @@
 const tokenValid = require('../services/verifyJWT');
 const { isEmailValid, isPasswordValid, isNameValid, } = require('../services/dataUserValid');
-const { errorReadingJWT } = require('./rescue');
+const { errorReadingJWT, rescue } = require('./rescue');
 
 const authorizationValid = errorReadingJWT((req, res, next) => {
   const token = req.headers.authorization;
@@ -14,17 +14,17 @@ const authorizationValid = errorReadingJWT((req, res, next) => {
   next();
 });
 
-const createUserValid = errorReadingJWT((req, res, next) => {
+const createUserValid = rescue((req, res, next) => {
   const { displayName, email, password } = req.body;
+
+  if (!isNameValid(displayName))
+    return res.status(400).json({ message: 'O nome deve conter de 3 a 40 caracteres alfanuméricos!' });
 
   if (!isEmailValid(email))
     return res.status(400).json({ message: 'Email com formato inválido' });
 
   if (!isPasswordValid(password))
     return res.status(400).json({ message: 'A senha deve conter 6 caracteres numericos' });
-
-  if (!isNameValid(displayName))
-    return res.status(400).json({ message: 'O nome deve conter de 3 a 40 caracteres alfanuméricos!' });
 
   next();
 });
