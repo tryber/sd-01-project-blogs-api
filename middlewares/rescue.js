@@ -24,8 +24,8 @@ exports.emailInvalid = fn => async (req, res, next) => {
     if (err.message === 'SequelizeEmailFindError')
       return res.status(400).json({ message: 'Usuário já existe' });
 
-    if (err.message === 'SequelizeEmailNotFound')
-      return res.status(400).json({ message: 'Campos inválidos' });
+    // if (err.message === 'SequelizeEmailNotFound')
+    //   return res.status(400).json({ message: 'Campos inválidos' });
 
     console.log(err.message);
     return res.status(500).json({ error: err.name });
