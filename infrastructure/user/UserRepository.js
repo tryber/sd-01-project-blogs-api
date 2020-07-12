@@ -8,18 +8,6 @@ class UserRepository {
     return users.map(UserMapper.toEntity);
   }
 
-  // async login(email, password) {
-  //   if (!valid) {
-  //     const error = new Error('ValidationError');
-  //     error.details = errors;
-
-  //     throw error;
-  //   }
-
-  //   const newUsers = await Users.create(UsersMapper.toDatabase(Users));
-  //   return UsersMapper.toEntity(newUsers);
-  // }
-
   async _getByEmail(email) {
     try {
       return await Users.findOne({
@@ -41,7 +29,7 @@ class UserRepository {
 
   async getByEmail(email) {
     const Users = await this._getByEmail(email);
-    return UsersMapper.toEntity(Users);
+    return UserMapper.toEntity(Users);
   }
   
 }

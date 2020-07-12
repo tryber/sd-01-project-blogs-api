@@ -14,6 +14,10 @@ const User = attributes({
     type: String,
     required: true,
   },
+  password: {
+    type: String,
+    required: true,
+  },
 })(class User {});
 
 module.exports = User;
