@@ -19,8 +19,9 @@ const User = attributes({
   },
 })(
   class User {
-    isValidUser() {
-      return this.email
+    data() {
+      const { id, displayName, email, image } = this;
+      return { id, displayName, email, image };
     }
   }
 );

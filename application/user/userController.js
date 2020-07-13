@@ -1,9 +1,7 @@
-const express = require('express');
 const UserRepository = require('../../infrastructure/user/UserRepository');
 const User = require('../../domain/user');
-const router = express.Router();
 
-router.get('/all', (req, res, next) => {
+exports.getAllUsers = (req, res, next) => {
   new UserRepository()
     .getAll()
     .then((users) => {
@@ -13,6 +11,4 @@ router.get('/all', (req, res, next) => {
       console.log(e.message);
       res.status(500).json({ message: 'Algo deu errado' });
     });
-});
-
-module.exports = router;
+};
