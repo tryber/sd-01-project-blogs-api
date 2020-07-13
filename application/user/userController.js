@@ -9,6 +9,6 @@ exports.getAllUsers = (req, res, next) => {
     })
     .catch((e) => {
       console.log(e.message);
-      res.status(500).json({ message: 'Algo deu errado' });
+      res.status(500).json({ message: 'Algo deu errado', trace:e.trace });
     });
 };
