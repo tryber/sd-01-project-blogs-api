@@ -18,6 +18,11 @@ const User = attributes({
     type: String,
     required: true,
   },
-})(class User {});
+})(class User {
+  getData(){
+    const { id, displayName, email, image } = this
+    return { id, displayName, email, image }
+  }
+});
 
 module.exports = User;

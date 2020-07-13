@@ -8,7 +8,6 @@ const UserMapper = {
 
   toDatabase(survivor) {
     const { displayName, email, image, password } = survivor;
-
     return { displayName, email, image, password };
   },
 };

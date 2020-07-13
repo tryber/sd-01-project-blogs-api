@@ -1,11 +1,11 @@
-const UserMapper = require('./UserMapper');
+const BlogPostMapper = require('./BlogPostMapper');
 
-const { Post } = require('../database/models');
+const { BlogPosts } = require('../database/models');
 
 class BlogPostRepository {
     async getAll() {
-      const posts = await Post.findAll();
-      return posts.map(UserMapper.toEntity);
+      const posts = await BlogPosts.findAll();
+      return posts.map(BlogPostMapper.toEntity);
     }
   
     // async _getByEmail(email) {
@@ -28,8 +28,8 @@ class BlogPostRepository {
     // }
   
     async createPost(post) {
-      // const posts = await this._getByEmail(email);
-      return UserMapper.toDatabase(post);
+      const posts = await BlogPosts.create(BlogPostMapper.toDatabase(post));
+      return BlogPostMapper.toEntity(posts)
     }
     
   }

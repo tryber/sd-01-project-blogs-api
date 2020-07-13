@@ -1,16 +1,16 @@
-const Post = require('../../domain/post');
+const BlogPost = require('../../domain/blog');
 
-const PostMapper = {
+const BlogPostMapper = {
   toEntity({ dataValues }) {
-    const { title, content, idUser } = dataValues;
-    return new Post({ title, content, idUser });
+    const { title, content, user_id: id } = dataValues;
+    return new BlogPost({ title, content, id });
   },
 
   toDatabase(survivor) {
-    const { title, content, idUser } = survivor;
-
-    return { title, content, idUser };
+    const {id, title, content,  id: user_id } = survivor;
+    console.log(`******${title}, ${content}, ${user_id}****`)
+    return { id, title, content, user_id };
   },
 };
 
-module.exports = PostMapper;
+module.exports = BlogPostMapper;

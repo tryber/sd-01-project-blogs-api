@@ -7,27 +7,35 @@ const factory = DataTypes => ({
     allowNull: false,
     autoIncrement: true,
   },
-  displayName: {
+  title: {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  email: {
-    allowNull: false,
-    type: DataTypes.STRING,
-    unique: true,
-  },
-  image: {
+  content: {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  password: {
+  user_id: {
+    type: DataTypes.INTEGER,
     allowNull: false,
-    type: DataTypes.STRING,
+    references: {
+      model: 'Users',
+      key: 'id',
+    },
+  },
+  published: {
+    allowNull: false,
+    type: DataTypes.DATE,
+  },
+  updated: {
+    allowNull: false,
+    type: DataTypes.DATE,
   },
 });
 
 module.exports = {
   up: async (queryInterface, DataTypes) =>
-    queryInterface.createTable('Users', factory(DataTypes)),
-  down: async queryInterface => queryInterface.dropTable('BlogPosts').then(queryInterface.dropTable('Users'))
+    queryInterface.createTable('BlogPosts', factory(DataTypes)),
+  down: async queryInterface => queryInterface.dropTable('BlogPosts')
+  
 };

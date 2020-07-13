@@ -3,6 +3,7 @@ const UserMapper = require('./UserMapper');
 const { Users } = require('../database/models');
 
 class UserRepository {
+
   async getAll() {
     const users = await Users.findAll();
     return users.map(UserMapper.toEntity);
@@ -19,7 +20,6 @@ class UserRepository {
       if (error.name === 'SequelizeEmptyResultError') {
         const notFoundError = new Error('NotFoundError');
         notFoundError.details = `Users com identificador ${email} não foi encontrado.`;
-
         throw notFoundError;
       }
 
