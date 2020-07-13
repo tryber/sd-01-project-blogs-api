@@ -8,7 +8,6 @@ const PostMapper = {
 
   toDatabase(survivor) {
     const { title, content, userId, updated } = survivor;
-
     return { title, content, userId, updated };
   },
 };

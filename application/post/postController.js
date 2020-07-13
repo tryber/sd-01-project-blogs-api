@@ -7,11 +7,11 @@ exports.createPost = (req, res, next) => {
   const { title, content } = body;
   if (!service.validatePost({ title, content })) return res.status(500).json({ message: 'Campos invalidos' });
   Manager.validateAndCreate({ title, content }, payload).then((post) => {
-    res.status(200).json(post);
+    res.status(201).json(post);
   })
     .catch((e) => {
       console.log(e.message);
-      res.status(500).json({ message: 'Algo deu errado' });
+      res.status(401).json({ message: 'Algo deu errado' });
     });
 };
 
@@ -24,7 +24,7 @@ exports.getAllPost = (req, res, next) => {
     })
     .catch((e) => {
       console.log(e.message);
-      res.status(500).json({ message: 'Algo deu errado', trace: e.trace });
+      res.status(401).json({ message: 'Algo deu errado', trace: e.trace });
     });
 };
 
@@ -39,6 +39,6 @@ exports.updatePost = (req, res, next) => {
   })
     .catch((e) => {
       console.log(e.message);
-      res.status(500).json({ message: 'Algo deu errado', trace: e.trace });
+      res.status(401).json({ message: 'Algo deu errado', trace: e.trace });
     });
 };
