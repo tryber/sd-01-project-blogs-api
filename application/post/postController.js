@@ -42,3 +42,17 @@ exports.updatePost = (req, res, next) => {
       res.status(401).json({ message: 'Algo deu errado', trace: e.trace });
     });
 };
+
+exports.getOnePostById = (req, res, next) => {
+  const { id } = req.params;
+  new PostRepository()
+    .getById(id)
+    .then((post) => {
+      console.log(post.data(), 'post')
+      res.status(200).json(post);
+    })
+    .catch((e) => {
+      console.log(e.message);
+      res.status(401).json({ message: 'Algo deu errado', trace: e.trace });
+    });
+}

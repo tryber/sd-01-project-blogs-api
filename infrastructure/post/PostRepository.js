@@ -50,7 +50,7 @@ class PostRepository {
         PostMapper.toDatabase(postData),
         { where: { id } }
       )
-    } catch (e) {
+    } catch (error) {
       if (error.name === 'SequelizeEmptyResultError') {
         const notFoundError = new Error('NotFoundError');
         notFoundError.details = `Post com identificador ${id} não foi encontrado.`;
