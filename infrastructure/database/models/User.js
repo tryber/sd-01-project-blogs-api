@@ -3,7 +3,6 @@ const User = (sequelize, DataTypes) => {
     displayName: DataTypes.STRING,
     email: DataTypes.STRING,
     image: DataTypes.STRING,
-    password: DataTypes.STRING,
   });
 
   return User;

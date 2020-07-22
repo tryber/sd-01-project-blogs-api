@@ -16,6 +16,7 @@ const BlogPost = attributes({
     type: Number,
     required: true,
   },
+  User: Object,
 })(
   class BlogPost {
     dataUser() {

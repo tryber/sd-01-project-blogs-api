@@ -22,7 +22,7 @@ exports.emailAlreadyExist = fn => async (req, res, next) => {
   } catch (err) {
     console.log(err.message);
     if (err.name === 'SequelizeUniqueConstraintError')
-      return res.status(400).json({ message: 'Usuário já existe' });
+      return res.status(404).json({ message: 'Usuário já existe' });
 
     return res.status(500).json({ error: err.name });
   }

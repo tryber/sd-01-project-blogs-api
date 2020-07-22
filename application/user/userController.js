@@ -5,7 +5,9 @@ const User = require('../../domain/user');
 const { createUserValid, deleteUserValid } = require('../../middlewares/userValid');
 const { authorizationValid } = require('../../middlewares/authorizationValid');
 const createJWT = require('../../services/createJWT');
-const { emailAlreadyExist, rescue } = require('../../middlewares/rescue')
+const { emailAlreadyExist, rescue } = require('../../middlewares/rescue');
+
+// const verifyJWT = require('../../services/verifyJWT');
 
 const router = express.Router();
 
@@ -15,9 +17,9 @@ const listUser = async (_req, res, _next) => {
 };
 
 const createUser = async (req, res) => {
-  const { displayName, email, image, password } = req.body;
+  const { displayName, email, image } = req.body;
 
-  const user = new User({ displayName, email, image, password });
+  const user = new User({ displayName, email, image });
 
   const newUser = await new UserRepository().create(user);
 
@@ -26,8 +28,13 @@ const createUser = async (req, res) => {
 };
 
 const detailUser = async (req, res, _next) => {
+  // const token = req.headers.authorization;
+  // const tokenValid = verifyJWT(token);
+  // const detailUser = await new UserRepository().getById(req.params.id, tokenValid);
+
   const detailUser = await new UserRepository().getById(req.params.id);
-  res.status(200).json(detailUser);
+  res.status(200)
+  res.json(detailUser);
 };
 
 const deleteUser = async (req, res) => {
@@ -43,4 +50,10 @@ router.get('/', rescue(listUser));
 router.get('/:id', rescue(detailUser));
 router.delete('/:id', deleteUserValid, rescue(deleteUser));
 
-module.exports = { userRouter: router };
+module.exports = {
+  userRouter: router,
+  createUser,
+  listUser,
+  detailUser,
+  deleteUser,
+};

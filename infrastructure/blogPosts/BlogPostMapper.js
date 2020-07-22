@@ -2,9 +2,9 @@ const BlogPost = require('../../domain/blogPost');
 
 const BlogPostMapper = {
   toEntity({ dataValues }) {
-    const { id, title, content, published, updated, user_id: userId } = dataValues;
+    const { id, title, content, published, updated, user_id: userId, User } = dataValues;
 
-    return new BlogPost({ id, title, content, published, updated, userId });
+    return new BlogPost({ id, title, content, published, updated, userId, User });
   },
 
   toDatabase(survivor) {
