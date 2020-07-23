@@ -2,7 +2,7 @@ const express = require('express');
 
 const UserRepository = require('../../infrastructure/user/UserRepository');
 const createJWT = require('../../services/createJWT');
-const { emailInvalid } = require('../../middlewares/rescue');
+const { emailInvalid } = require('../../middlewares/customErrorTratament');
 const { loginValid } = require('../../middlewares/loginValid');
 
 const router = express.Router();

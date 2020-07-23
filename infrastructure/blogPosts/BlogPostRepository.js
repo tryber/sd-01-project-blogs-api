@@ -1,3 +1,5 @@
+const { Op } = require('sequelize');
+
 const BlogPostMapper = require('./BlogPostMapper');
 
 const { BlogPost } = require('../database/models');
@@ -11,6 +13,33 @@ class BlogPostRepository {
     const posts = await BlogPost.findAll({
       include: [User],
     });
+
+    return posts.map(BlogPostMapper.toEntity);
+  }
+
+  async _getAllSearch(search) {
+    const posts = await BlogPost.findAll({
+      include: [User],
+      where: {
+        [Op.or]: [{
+          title: {
+            [Op.regexp]: search,
+          }
+        },
+        {
+          content: {
+            [Op.regexp]: search,
+          }
+        }],
+      },
+    });
+
+    if (!posts.length) throw new Error('SequelizePostNotFound');
+    return posts;
+  }
+
+  async getAllSearch(search) {
+    const posts = await this._getAllSearch(search);
 
     return posts.map(BlogPostMapper.toEntity);
   }
@@ -49,7 +78,7 @@ class BlogPostRepository {
 
     await post.destroy();
     return;
-  }  
+  }
 }
 
 module.exports = BlogPostRepository;

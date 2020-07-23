@@ -5,9 +5,7 @@ const User = require('../../domain/user');
 const { createUserValid, deleteUserValid } = require('../../middlewares/userValid');
 const { authorizationValid } = require('../../middlewares/authorizationValid');
 const createJWT = require('../../services/createJWT');
-const { emailAlreadyExist, rescue } = require('../../middlewares/rescue');
-
-// const verifyJWT = require('../../services/verifyJWT');
+const { emailAlreadyExist, rescue } = require('../../middlewares/customErrorTratament');
 
 const router = express.Router();
 
@@ -28,12 +26,8 @@ const createUser = async (req, res) => {
 };
 
 const detailUser = async (req, res, _next) => {
-  // const token = req.headers.authorization;
-  // const tokenValid = verifyJWT(token);
-  // const detailUser = await new UserRepository().getById(req.params.id, tokenValid);
-
   const detailUser = await new UserRepository().getById(req.params.id);
-  res.status(200)
+  res.status(200);
   res.json(detailUser);
 };
 

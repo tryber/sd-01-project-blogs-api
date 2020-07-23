@@ -1,6 +1,6 @@
 const tokenValid = require('../services/verifyJWT');
 const { isEmailValid, isPasswordValid, isNameValid, } = require('../services/dataUserValid');
-const { errorReadingJWT, rescue } = require('./rescue');
+const { errorReadingJWT, rescue } = require('./customErrorTratament');
 
 exports.createUserValid = rescue((req, res, next) => {
   const { displayName, email, password } = req.body;

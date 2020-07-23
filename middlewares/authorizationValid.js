@@ -1,5 +1,5 @@
 const tokenValid = require('../services/verifyJWT');
-const { errorReadingJWT } = require('./rescue');
+const { errorReadingJWT } = require('./customErrorTratament');
 
 exports.authorizationValid = errorReadingJWT((req, res, next) => {
   const token = req.headers.authorization;
@@ -12,3 +12,5 @@ exports.authorizationValid = errorReadingJWT((req, res, next) => {
 
   next();
 });
+
+// req.payload = payload;

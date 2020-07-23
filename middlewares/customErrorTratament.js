@@ -40,3 +40,17 @@ exports.emailInvalid = fn => async (req, res, next) => {
     return res.status(500).json({ error: err.name });
   }
 };
+
+exports.invalidQueryString = fn => async (req, res, next) => {
+  try {
+    await fn(req, res, next);
+  } catch (err) {
+    console.log(err.message);
+    if (err.message === 'SequelizePostNotFound')
+      return res.status(400).json({ 
+        message: 'Nenhum título ou conteúdo inclui os parâmetros passados' 
+      });
+
+    return res.status(500).json({ error: err.name });
+  }
+};

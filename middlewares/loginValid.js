@@ -1,5 +1,5 @@
 const { isEmailValid, isPasswordValid, } = require('../services/dataUserValid');
-const { rescue } = require('./rescue');
+const { rescue } = require('./customErrorTratament');
 
 exports.loginValid = rescue((req, res, next) => {
   const { email, password } = req.body;
