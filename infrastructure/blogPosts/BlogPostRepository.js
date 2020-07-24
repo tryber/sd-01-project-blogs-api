@@ -44,20 +44,6 @@ class BlogPostRepository {
     return posts.map(BlogPostMapper.toEntity);
   }
 
-  async create(post) {
-    const { valid, errors } = post.validate();
-
-    if (!valid) {
-      const error = new Error('ValidationError');
-      error.details = errors;
-
-      throw error;
-    }
-
-    const { dataValues } = await BlogPost.create(BlogPostMapper.toDatabase(post));
-    return dataValues;
-  }
-
   async _getById(id) {
     try {
       return await BlogPost.findByPk(id, { include: [User] }, { rejectOnEmpty: true });
@@ -71,6 +57,20 @@ class BlogPostRepository {
     const post = await this._getById(id);
 
     return BlogPostMapper.toEntity(post);
+  }
+
+  async create(post) {
+    const { valid, errors } = post.validate();
+
+    if (!valid) {
+      const error = new Error('ValidationError');
+      error.details = errors;
+
+      throw error;
+    }
+
+    const { dataValues } = await BlogPost.create(BlogPostMapper.toDatabase(post));
+    return dataValues;
   }
 
   async _updatePost({ title, content, user_id, id }) {

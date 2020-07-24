@@ -5,7 +5,7 @@ const BlogPost = require('../../domain/blogPost');
 const { authorizationValid } = require('../../middlewares/authorizationValid');
 const { rescue, invalidQueryString } = require('../../middlewares/customErrorTratament');
 const { postNotFound, accessDeniedPost } = require('../../middlewares/customErrorTratament');
-const { createPostValid } = require('../../middlewares/blogPostValid');
+const { setPostValid } = require('../../middlewares/blogPostValid');
 
 const router = express.Router();
 
@@ -62,8 +62,8 @@ router.get('/:id', rescue(detailPostById));
 
 router.use(authorizationValid);
 
-router.post('/', createPostValid, rescue(createPost));
+router.post('/', setPostValid, rescue(createPost));
 router.delete('/:id', postNotFound, accessDeniedPost, rescue(deletePost));
-router.put('/:id', createPostValid, postNotFound, accessDeniedPost, rescue(updatePost));
+router.put('/:id', setPostValid, postNotFound, accessDeniedPost, rescue(updatePost));
 
 module.exports = { blogPostRouter: router };

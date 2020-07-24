@@ -1,11 +1,12 @@
+const LIMIT_CARACTERS_MYSQL = 255;
+
 function isTitleValid(title = '') {
-  const regex = /^{1,100}$/;
-  return regex.test(title);
+  const limitCaractersTitle = 100; 
+  return title.length <= limitCaractersTitle;
 }
 
 function isContentValid(content = '') {
-  const regex = /^{1,255}$/;
-  return regex.test(content);
+  return content.length <= LIMIT_CARACTERS_MYSQL;
 }
 
 module.exports = {
