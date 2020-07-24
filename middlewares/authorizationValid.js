@@ -10,7 +10,7 @@ exports.authorizationValid = errorReadingJWT((req, res, next) => {
 
   if (!payload) return res.status(401).json({ message: 'Usuário não autorizado!' });
 
+  req.payload = payload;
+
   next();
 });
-
-// req.payload = payload;

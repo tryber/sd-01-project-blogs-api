@@ -45,7 +45,7 @@ class UserRepository {
   }
 
   async _loginValidEmail(email) {
-    const findEmail = await User.findOne({ where: { email } })
+    const findEmail = await User.findOne({ where: { email } });
     if (!findEmail) throw new Error('SequelizeEmailNotFound');
     return findEmail;
   }

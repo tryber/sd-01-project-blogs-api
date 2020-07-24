@@ -44,8 +44,8 @@ class BlogPostRepository {
     return posts.map(BlogPostMapper.toEntity);
   }
 
-  async create(posts) {
-    const { valid, errors } = posts.validate();
+  async create(post) {
+    const { valid, errors } = post.validate();
 
     if (!valid) {
       const error = new Error('ValidationError');
@@ -54,7 +54,7 @@ class BlogPostRepository {
       throw error;
     }
 
-    const { dataValues } = await BlogPost.create(BlogPostMapper.toDatabase(posts));
+    const { dataValues } = await BlogPost.create(BlogPostMapper.toDatabase(post));
     return dataValues;
   }
 
@@ -73,8 +73,32 @@ class BlogPostRepository {
     return BlogPostMapper.toEntity(post);
   }
 
-  async remove(id) {
-    const post = await this._getById(id);
+  async _updatePost({ title, content, user_id, id }) {
+    const updatePost = await BlogPost.update(
+      BlogPostMapper.toDatabase({ title, content }),
+      { where: { id, user_id } },
+    );
+    if (!updatePost) throw new Error('SequelizePostNotFound');
+    return updatePost;
+  }
+
+  async update(post) {
+    const updatePost = await this._updatePost(post);
+    console.log('updatepost', updatePost);
+    console.log('uuuuuu', updatePost.dataValues);
+
+    // const { dataValues } = await BlogPost.update(BlogPostMapper.toDatabase(post));
+    return updatePost;
+  }
+
+  async _removePost({ id, userId }) {
+    const findPost = await BlogPost.findOne({ where: { id, user_id: userId } });
+    if (!findPost) throw new Error('SequelizePostNotFound');
+    return findPost;
+  }
+
+  async removePost(postId) {
+    const post = await this._removePost(postId);
 
     await post.destroy();
     return;
