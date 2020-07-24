@@ -74,26 +74,29 @@ class BlogPostRepository {
   }
 
   async _updatePost({ title, content, user_id, id }) {
+    const postId = await BlogPost.findOne({ where: { id } });
+    if (!postId) throw new Error('SequelizePostNotFound');
+
     const updatePost = await BlogPost.update(
       BlogPostMapper.toDatabase({ title, content }),
       { where: { id, user_id } },
     );
-    if (!updatePost) throw new Error('SequelizePostNotFound');
+    if (updatePost[0] === 0) throw new Error('SequelizePostAcessNotValid');
     return updatePost;
   }
 
   async update(post) {
     const updatePost = await this._updatePost(post);
-    console.log('updatepost', updatePost);
-    console.log('uuuuuu', updatePost.dataValues);
 
-    // const { dataValues } = await BlogPost.update(BlogPostMapper.toDatabase(post));
     return updatePost;
   }
 
   async _removePost({ id, userId }) {
+    const postId = await BlogPost.findOne({ where: { id } });
+    if (!postId) throw new Error('SequelizePostNotFound');
+
     const findPost = await BlogPost.findOne({ where: { id, user_id: userId } });
-    if (!findPost) throw new Error('SequelizePostNotFound');
+    if (!findPost) throw new Error('SequelizePostAcessNotValid');
     return findPost;
   }
 

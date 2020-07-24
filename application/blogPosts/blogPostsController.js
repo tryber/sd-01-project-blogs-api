@@ -4,6 +4,8 @@ const BlogPostRepository = require('../../infrastructure/blogPosts/BlogPostRepos
 const BlogPost = require('../../domain/blogPost');
 const { authorizationValid } = require('../../middlewares/authorizationValid');
 const { rescue, invalidQueryString } = require('../../middlewares/customErrorTratament');
+const { postNotFound, accessDeniedPost } = require('../../middlewares/customErrorTratament');
+const { createPostValid } = require('../../middlewares/blogPostValid');
 
 const router = express.Router();
 
@@ -26,7 +28,7 @@ const createPost = async (req, res) => {
 
   await new BlogPostRepository().create(post);
 
-  res.status(201).json({ message: 'Post criado com sucesso!'});
+  res.status(201).json({ message: 'Post criado com sucesso!' });
 };
 
 const updatePost = async (req, res, _next) => {
@@ -34,12 +36,10 @@ const updatePost = async (req, res, _next) => {
   const id = req.params.id;
   const userId = req.payload.id;
 
-  // const post = new BlogPost({ title, content, user_id: id });
-  const post = { title, content, user_id: userId, id  };
+  const post = { title, content, user_id: userId, id };
+  await new BlogPostRepository().update(post);
 
-  const updatePost = await new BlogPostRepository().update(post);
-
-  res.status(200).json(updatePost);
+  res.status(200).json({ message: 'Post atualizado com sucesso!' });
 }
 
 const detailPostById = async (req, res, _next) => {
@@ -53,18 +53,17 @@ const deletePost = async (req, res) => {
 
   await new BlogPostRepository().removePost({ id, userId });
 
-  res.status(200).send({ message: 'removido com sucesso'});
+  res.status(200).send({ message: 'Post removido com sucesso!' });
 };
-
-router.use(authorizationValid);
 
 router.get('/', rescue(listPosts));
 router.get('/search', invalidQueryString(listSearchPosts));
-
-router.post('/', createPost);
-
 router.get('/:id', rescue(detailPostById));
-router.delete('/:id', rescue(deletePost));
-router.put('/:id', rescue(updatePost));
+
+router.use(authorizationValid);
+
+router.post('/', createPostValid, rescue(createPost));
+router.delete('/:id', postNotFound, accessDeniedPost, rescue(deletePost));
+router.put('/:id', createPostValid, postNotFound, accessDeniedPost, rescue(updatePost));
 
 module.exports = { blogPostRouter: router };
