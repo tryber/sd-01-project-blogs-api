@@ -23,7 +23,8 @@ exports.deleteUserValid = errorReadingJWT((req, res, next) => {
 
   const { id: idUser } = tokenValid(token);
 
-  if (idUser !== Number(id)) return res.status(401).json({ message: 'Usuário não autorizado!' });
+  if (idUser !== Number(id))
+    return res.status(401).json({ message: 'Usuário não autorizado ou não encontrado!' });
 
   next();
 });

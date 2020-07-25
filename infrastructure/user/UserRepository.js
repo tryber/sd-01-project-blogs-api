@@ -1,5 +1,6 @@
 const UserMapper = require('./UserMapper');
 const { User } = require('../database/models');
+const manager = require('../../manager');
 
 class UserRepository {
   async getAll() {
@@ -37,8 +38,10 @@ class UserRepository {
     return UserMapper.toEntity(user);
   }
 
-  async remove(id) {
-    const user = await this._getById(id);
+  async remove(payload) {
+    const user = await this._getById(payload.id);
+
+    await manager.removeUserAndPosts(payload);
 
     await user.destroy();
     return;
@@ -55,7 +58,6 @@ class UserRepository {
 
     return UserMapper.toEntity(user);
   }
-  
 }
 
 module.exports = UserRepository;

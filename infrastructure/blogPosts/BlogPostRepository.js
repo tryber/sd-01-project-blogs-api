@@ -46,9 +46,11 @@ class BlogPostRepository {
 
   async _getById(id) {
     try {
-      return await BlogPost.findByPk(id, { include: [User] }, { rejectOnEmpty: true });
+      const post = await BlogPost.findByPk(id, { include: [User] });
+      if (!post) throw new Error('SequelizeEmptyResultError');
+      return post;
     } catch (error) {
-      if (error.name === 'SequelizeEmptyResultError') throw new Error('Post não encontrado');
+      if (error.message === 'SequelizeEmptyResultError') throw new Error('Post não encontrado');
       throw error;
     }
   }
@@ -104,6 +106,11 @@ class BlogPostRepository {
     const post = await this._removePost(postId);
 
     await post.destroy();
+    return;
+  }
+
+  async removeAllPost({ id }) {
+    await await BlogPost.destroy({ where: { user_id: id } });
     return;
   }
 }

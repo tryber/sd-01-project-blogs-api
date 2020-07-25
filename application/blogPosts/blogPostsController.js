@@ -51,6 +51,8 @@ const deletePost = async (req, res) => {
   const id = req.params.id;
   const userId = req.payload.id;
 
+  console.log('chegou aqui')
+
   await new BlogPostRepository().removePost({ id, userId });
 
   res.status(200).send({ message: 'Post removido com sucesso!' });
@@ -63,7 +65,7 @@ router.get('/:id', rescue(detailPostById));
 router.use(authorizationValid);
 
 router.post('/', setPostValid, rescue(createPost));
-router.delete('/:id', postNotFound, accessDeniedPost, rescue(deletePost));
-router.put('/:id', setPostValid, postNotFound, accessDeniedPost, rescue(updatePost));
+router.delete('/:id', postNotFound(deletePost), accessDeniedPost(deletePost));
+router.put('/:id', setPostValid, postNotFound(updatePost), accessDeniedPost(updatePost));
 
 module.exports = { blogPostRouter: router };

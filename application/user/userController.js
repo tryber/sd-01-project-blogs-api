@@ -32,8 +32,8 @@ const detailUser = async (req, res, _next) => {
 };
 
 const deleteUser = async (req, res) => {
-  await new UserRepository().remove(req.params.id)
-  res.status(204).send();
+  await new UserRepository().remove(req.payload);
+  res.status(200).json({ message: 'Usuário excluído com sucesso!'});
 };
 
 router.post('/', createUserValid, emailAlreadyExist(createUser));
