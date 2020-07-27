@@ -3,7 +3,7 @@ const UserRepository = require('../../infrastructure/user/UserRepository');
 const router = express.Router();
 const rescue = require('../../middleware/rescue');
 const verifyUser = require('../../middleware/verifyUser');
-const createToken = require('../../infrastructure/user/createToken');
+const { createToken } = require('../../services');
 
 const callGetAll = async (req, res, next) => {
   const User = new UserRepository();

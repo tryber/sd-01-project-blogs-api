@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = (email) => {
+const createToken = (email) => {
   const secret = process.env.DB_PASSWORD;
   const jwtConfig = {
     expiresIn: '1d',
@@ -9,3 +9,7 @@ module.exports = (email) => {
   const token = jwt.sign({ email }, secret, jwtConfig);
   return token;
 };
+
+module.exports = {
+    createToken
+}

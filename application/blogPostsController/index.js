@@ -22,6 +22,10 @@ const callPostPost = async (req, res, next) => {
     });
 };
 
+const callGetPost = async (req, res, next) => {
+  
+}
+
 router.post('/', verifyPost, verifyJWT, rescue(callPostPost));
 
 module.exports = router;

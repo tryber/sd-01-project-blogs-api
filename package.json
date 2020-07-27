@@ -20,9 +20,12 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "jest": "^26.0.1",
-    "supertest": "^4.0.2",
-    "sequelize-cli": "^6.2.0",
-    "npx": "^10.2.2"
+    "eslint": "^5.7.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "nodemon": "^2.0.4",
+    "sequelize-cli": "^6.2.0"
   }
 }

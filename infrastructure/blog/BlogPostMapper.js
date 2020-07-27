@@ -8,7 +8,6 @@ const BlogPostMapper = {
 
   toDatabase(survivor) {
     const {id, title, content,  id: user_id } = survivor;
-    console.log(`******${title}, ${content}, ${user_id}****`)
     return { id, title, content, user_id };
   },
 };
