@@ -1,7 +1,8 @@
 version: "2"         # required to adjust maintainability checks
 exclude_patterns:
   - "**/*.test.js"
-  - "infrastructure/database/*.js"
+  - "infrastructure/database/migrations/*.js"
+  - "infrastructure/database/seeders/*.js"
 checks:
   argument-count:
     config:
