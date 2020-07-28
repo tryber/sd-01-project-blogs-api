@@ -10,15 +10,6 @@ class UserRepository {
   }
 
   async create(users) {
-    const { valid, errors } = users.validate();
-
-    if (!valid) {
-      const error = new Error('ValidationError');
-      error.details = errors;
-
-      throw error;
-    }
-
     const { dataValues } = await User.create(UserMapper.toDatabase(users));
     return dataValues;
   }
