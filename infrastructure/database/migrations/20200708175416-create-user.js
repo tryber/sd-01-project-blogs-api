@@ -16,6 +16,7 @@ module.exports = {
       email: {
         allowNull: false,
         type: DataTypes.STRING,
+        unique: true,
       },
       image: {
         allowNull: false,

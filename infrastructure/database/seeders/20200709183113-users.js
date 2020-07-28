@@ -8,12 +8,12 @@ module.exports = {
         {
           displayName: "Leonardo",
           email: "leo@test.com",
-          image: "showshow",
+          image: "https://www.google.com",
         },
         {
           displayName: "Leonardo2",
           email: "leo2@test.com",
-          image: "show2show",
+          image: "https://www.google.com",
         },
       ],
       {}

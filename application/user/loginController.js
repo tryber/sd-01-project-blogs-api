@@ -5,7 +5,7 @@ const service = require('../../infrastructure/user/serviceUser');
 const serviceToken = require('../../service/token');
 const router = express.Router();
 
-router.post('/', (req, res, next) => {
+exports.login = (req, res, next) => {
   const { email, password } = req.body;
   if (!service.validateUserData({ email, password })) return res.status(500).json({ message: 'Campos invalidos' });
   new UserRepository()
@@ -17,6 +17,6 @@ router.post('/', (req, res, next) => {
     .catch((e) => {
       res.status(500).json({ message: 'Algo deu errado' });
     });
-});
+};
 
 module.exports = router;

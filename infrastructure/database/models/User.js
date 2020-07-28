@@ -1,8 +1,26 @@
 const User = (sequelize, DataTypes) => {
   const User = sequelize.define("User", {
-    displayName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    image: DataTypes.STRING,
+    displayName: {
+      type: DataTypes.STRING,
+      validate: {
+        len: [1,],
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+      validate: {
+        isEmail: true,
+        notNull: false
+      }
+    },
+    image: {
+      type: DataTypes.STRING,
+      validate: {
+        isUrl: true,
+        notNull: false
+      }
+    },
   }, {
     timestamps: false,
   });

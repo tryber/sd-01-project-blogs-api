@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const PostMapper = require('./PostMapper');
 
 const { Post } = require('../database/models');
@@ -20,9 +21,18 @@ class PostRepository {
     return PostMapper.toEntity(newPost);
   }
 
-  async remove(id) {
-    const post = await this._getById(id);
+  async isFromUser(id, post) {
+    try {
+      if (post.userId === id) throw new Error('NotValid');
+      return true;
+    } catch (err) {
+      throw error;
+    }
+  }
 
+  async remove(id, idUser) {
+    const post = await this._getById(id);
+    this.isFromUser(idUser, id);
     await post.destroy();
     return;
   }
@@ -36,6 +46,33 @@ class PostRepository {
       if (error.name === 'SequelizeEmptyResultError') {
         const notFoundError = new Error('NotFoundError');
         notFoundError.details = `Post com identificador ${id} não foi encontrado.`;
+
+        throw notFoundError;
+      }
+
+      throw error;
+    }
+  }
+
+  async _getByTerm(term) {
+    try {
+      return await Post.findAll({
+        include: [User],
+        where: {
+          [Op.or]: [{
+            title: { [Op.regexp]: term }
+          },
+          {
+            content: { [Op.regexp]: term }
+          }],
+        },
+        rejectOnEmpty: true
+      });
+    } catch (error) {
+      console.log('opa')
+      if (error.name === 'SequelizeEmptyResultError') {
+        const notFoundError = new Error('NotFoundError');
+        notFoundError.details = `Nenhum post encontrado com pesquisa por ${term}.`;
 
         throw notFoundError;
       }
@@ -64,7 +101,6 @@ class PostRepository {
   async update(id, postData) {
     await this._update(id, postData);
     const data = await this._getById(id);
-    console.log(data);
     return PostMapper.toEntity(data);
   }
 
@@ -72,6 +108,12 @@ class PostRepository {
     const post = await this._getById(id);
 
     return PostMapper.toEntity(post);
+  }
+
+  async getByTerm(term) {
+    const post = await this._getByTerm(term);
+
+    return post.map(PostMapper.toEntity);
   }
 }
 

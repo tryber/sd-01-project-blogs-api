@@ -1,11 +1,21 @@
 const Post = (sequelize, DataTypes) => {
   const Post = sequelize.define("Post", {
-    title: DataTypes.STRING,
-    content: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      validate: {
+        notNull: false
+      }
+    },
+    content: {
+      type: DataTypes.STRING,
+      validate: {
+        notNull: false
+      }
+    },
     userId: DataTypes.INTEGER,
     published: DataTypes.DATE,
     updated: DataTypes.DATE
-  },{
+  }, {
     updatedAt: 'updated',
     createdAt: 'published'
   });

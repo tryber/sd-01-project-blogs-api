@@ -50,4 +50,3 @@ exports.validateAndCreate = async (dataPost, userData) => {
     throw err;
   }
 }
-
