@@ -3,6 +3,7 @@ exclude_patterns:
   - "**/*.test.js"
   - "infrastructure/database/migrations/*.js"
   - "infrastructure/database/seeders/*.js"
+  - "infrastructure/database/models/index.js"
 checks:
   argument-count:
     config:
