@@ -1,9 +1,6 @@
-const express = require('express');
 const UserRepository = require('../../infrastructure/user/UserRepository');
-const User = require('../../domain/user');
 const service = require('../../infrastructure/user/serviceUser');
 const serviceToken = require('../../service/token');
-const router = express.Router();
 
 exports.login = (req, res, next) => {
   const { email, password } = req.body;
@@ -15,8 +12,6 @@ exports.login = (req, res, next) => {
       res.status(200).json({ token });
     })
     .catch((e) => {
-      res.status(500).json({ message: 'Algo deu errado' });
+      res.status(500).json({ message: e.message });
     });
 };
-
-module.exports = router;
