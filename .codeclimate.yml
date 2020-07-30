@@ -1,9 +1,16 @@
 version: "2"         # required to adjust maintainability checks
 exclude_patterns:
-  - "**/*.test.js"
+- "**/*.test.js"
+  - "src/serviceWorker.js"
+  - "src/index.css"
+  - "src/App.css"
+  - "**/libs/*.css"
+  - "**/libs/*.js"
+  - "cypress/**/*"
+  - "public/**/*"
   - "infrastructure/database/migrations/*.js"
   - "infrastructure/database/seeders/*.js"
-  - "infrastructure/database/models/index.js"
+  - "infrastructure/database/models/*.js"
 checks:
   argument-count:
     config:
