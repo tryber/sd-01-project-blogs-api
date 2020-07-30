@@ -3,8 +3,8 @@ const express = require('express');
 const BlogPostRepository = require('../../infrastructure/blogPosts/BlogPostRepository');
 const BlogPost = require('../../domain/blogPost');
 const { authorizationValid } = require('../../middlewares/authorizationValid');
-const { rescue, invalidQueryString } = require('../../middlewares/customErrorTratament');
-const { postNotFound, accessDeniedPost } = require('../../middlewares/customErrorTratament');
+const { rescue } = require('../../middlewares/customErrorTratament');
+const { postNotFound, accessDeniedPost, testandoError } = require('../../middlewares/customErrorTratament');
 const { setPostValid } = require('../../middlewares/blogPostValid');
 
 const router = express.Router();
@@ -59,7 +59,7 @@ const deletePost = async (req, res) => {
 };
 
 router.get('/', rescue(listPosts));
-router.get('/search', invalidQueryString(listSearchPosts));
+router.get('/search', testandoError(listSearchPosts));
 router.get('/:id', rescue(detailPostById));
 
 router.use(authorizationValid);

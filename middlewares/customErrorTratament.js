@@ -47,8 +47,8 @@ exports.invalidQueryString = fn => async (req, res, next) => {
   } catch (err) {
     console.log(err.message);
     if (err.message === 'SequelizePostNotFound')
-      return res.status(400).json({ 
-        message: 'Nenhum título ou conteúdo inclui os parâmetros passados' 
+      return res.status(400).json({
+        message: 'Nenhum título ou conteúdo inclui os parâmetros passados'
       });
 
     return res.status(500).json({ error: err.name });
@@ -78,5 +78,26 @@ exports.accessDeniedPost = fn => async (req, res, next) => {
       });
 
     return res.status(500).json({ error: err.name });
+  }
+};
+
+exports.testandoError = fn => async (req, res, next) => {
+  try {
+    await fn(req, res, next);
+  } catch (err) {
+    switch (err.message) {
+      case 'SequelizeEmailNotFound':
+        return res.status(400).json({ message: 'Campos inválidos' });
+      case 'SequelizePostNotFound':
+        return res.status(400).json({
+          message: 'Nenhum título ou conteúdo inclui os parâmetros passados'
+        });
+      case 'SequelizePostAcessNotValid':
+        return res.status(404).json({
+          message: 'Usúario não altorizado a fazer alterações neste post',
+        });
+      default:
+        return res.status(500).json({ error: err.name, message: err.message });
+    };
   }
 };
