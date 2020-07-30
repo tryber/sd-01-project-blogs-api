@@ -19,7 +19,7 @@ class UserRepository {
     const { email } = login;
     const newLogin = await User.findOne({ where: { email } });
 
-    return newLogin;
+    return UserMapper.toEntity(newLogin);
   }
 }
 
