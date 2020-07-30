@@ -1,3 +1,4 @@
 module.exports = {
-  user: require('./userController.js')
+  user: require('./userController.js'),
+  login: require('./loginController.js')
 };
