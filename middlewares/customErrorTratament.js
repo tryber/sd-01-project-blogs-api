@@ -1,12 +1,3 @@
-exports.rescue = fn => async (req, res, next) => {
-  try {
-    await fn(req, res, next);
-  } catch (err) {
-    console.log(err.message)
-    res.status(500).json({ error: err.message });
-  }
-};
-
 exports.errorReadingJWT = fn => async (req, res, next) => {
   try {
     await fn(req, res, next);
@@ -28,60 +19,60 @@ exports.emailAlreadyExist = fn => async (req, res, next) => {
   }
 };
 
-exports.emailInvalid = fn => async (req, res, next) => {
-  try {
-    await fn(req, res, next);
-  } catch (err) {
-    console.log(err.message);
-    if (err.message === 'SequelizeEmailNotFound')
-      return res.status(400).json({ message: 'Campos inválidos' });
+// exports.emailInvalid = fn => async (req, res, next) => {
+//   try {
+//     await fn(req, res, next);
+//   } catch (err) {
+//     console.log(err.message);
+//     if (err.message === 'SequelizeEmailNotFound')
+//       return res.status(400).json({ message: 'Campos inválidos' });
 
-    console.log(err.message);
-    return res.status(500).json({ error: err.name });
-  }
-};
+//     console.log(err.message);
+//     return res.status(500).json({ error: err.name });
+//   }
+// };
 
-exports.invalidQueryString = fn => async (req, res, next) => {
-  try {
-    await fn(req, res, next);
-  } catch (err) {
-    console.log(err.message);
-    if (err.message === 'SequelizePostNotFound')
-      return res.status(400).json({
-        message: 'Nenhum título ou conteúdo inclui os parâmetros passados'
-      });
+// exports.invalidQueryString = fn => async (req, res, next) => {
+//   try {
+//     await fn(req, res, next);
+//   } catch (err) {
+//     console.log(err.message);
+//     if (err.message === 'SequelizePostNotFound')
+//       return res.status(400).json({
+//         message: 'Nenhum título ou conteúdo inclui os parâmetros passados'
+//       });
 
-    return res.status(500).json({ error: err.name });
-  }
-};
+//     return res.status(500).json({ error: err.name });
+//   }
+// };
 
-exports.postNotFound = fn => async (req, res, next) => {
-  try {
-    await fn(req, res, next);
-  } catch (err) {
-    console.log(err.message);
-    if (err.message === 'SequelizePostNotFound')
-      return res.status(404).json({ message: 'Post não encontrado' });
+// exports.postNotFound = fn => async (req, res, next) => {
+//   try {
+//     await fn(req, res, next);
+//   } catch (err) {
+//     console.log(err.message);
+//     if (err.message === 'SequelizePostNotFound')
+//       return res.status(404).json({ message: 'Post não encontrado' });
 
-    return res.status(500).json({ error: err.name });
-  }
-};
+//     return res.status(500).json({ error: err.name });
+//   }
+// };
 
-exports.accessDeniedPost = fn => async (req, res, next) => {
-  try {
-    await fn(req, res, next);
-  } catch (err) {
-    console.log(err.message);
-    if (err.message === 'SequelizePostAcessNotValid')
-      return res.status(404).json({
-        message: 'Usúario não altorizado a fazer alterações neste post',
-      });
+// exports.accessDeniedPost = fn => async (req, res, next) => {
+//   try {
+//     await fn(req, res, next);
+//   } catch (err) {
+//     console.log(err.message);
+//     if (err.message === 'SequelizePostAcessNotValid')
+//       return res.status(404).json({
+//         message: 'Usúario não altorizado a fazer alterações neste post',
+//       });
 
-    return res.status(500).json({ error: err.name });
-  }
-};
+//     return res.status(500).json({ error: err.name });
+//   }
+// };
 
-exports.testandoError = fn => async (req, res, next) => {
+exports.rescue = fn => async (req, res, next) => {
   try {
     await fn(req, res, next);
   } catch (err) {
@@ -89,6 +80,8 @@ exports.testandoError = fn => async (req, res, next) => {
       case 'SequelizeEmailNotFound':
         return res.status(400).json({ message: 'Campos inválidos' });
       case 'SequelizePostNotFound':
+        return res.status(404).json({ message: 'Post não encontrado' });
+      case 'SequelizeRegexPostNotFound':
         return res.status(400).json({
           message: 'Nenhum título ou conteúdo inclui os parâmetros passados'
         });
@@ -98,6 +91,6 @@ exports.testandoError = fn => async (req, res, next) => {
         });
       default:
         return res.status(500).json({ error: err.name, message: err.message });
-    };
+    }
   }
 };

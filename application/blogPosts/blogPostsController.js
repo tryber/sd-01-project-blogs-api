@@ -4,7 +4,6 @@ const BlogPostRepository = require('../../infrastructure/blogPosts/BlogPostRepos
 const BlogPost = require('../../domain/blogPost');
 const { authorizationValid } = require('../../middlewares/authorizationValid');
 const { rescue } = require('../../middlewares/customErrorTratament');
-const { postNotFound, accessDeniedPost, testandoError } = require('../../middlewares/customErrorTratament');
 const { setPostValid } = require('../../middlewares/blogPostValid');
 
 const router = express.Router();
@@ -59,13 +58,13 @@ const deletePost = async (req, res) => {
 };
 
 router.get('/', rescue(listPosts));
-router.get('/search', testandoError(listSearchPosts));
+router.get('/search', rescue(listSearchPosts));
 router.get('/:id', rescue(detailPostById));
 
 router.use(authorizationValid);
 
 router.post('/', setPostValid, rescue(createPost));
-router.delete('/:id', postNotFound(deletePost), accessDeniedPost(deletePost));
-router.put('/:id', setPostValid, postNotFound(updatePost), accessDeniedPost(updatePost));
+router.delete('/:id', rescue(deletePost));
+router.put('/:id', setPostValid, rescue(updatePost));
 
 module.exports = { blogPostRouter: router };

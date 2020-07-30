@@ -34,7 +34,7 @@ class BlogPostRepository {
       },
     });
 
-    if (!posts.length) throw new Error('SequelizePostNotFound');
+    if (!posts.length) throw new Error('SequelizeRegexPostNotFound');
     return posts;
   }
 
