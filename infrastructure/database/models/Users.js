@@ -1,17 +1,33 @@
-const User = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    'Users',
-    {
-      displayName: DataTypes.STRING,
-      email: DataTypes.STRING,
-      image: DataTypes.STRING,
-      password: DataTypes.STRING,
+const parameters = (DataTypes) => ({
+  displayName: {
+    type: DataTypes.STRING,
+    validate: {
+      len: [1],
     },
-    {
-      timestamps: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    unique: true,
+    validate: {
+      isEmail: true,
+      notNull: false,
     },
-  );
-  return User;
+  },
+  image: {
+    type: DataTypes.STRING,
+    validate: {
+      isUrl: true,
+      notNull: false,
+    },
+    password: DataTypes.STRING,
+  },
+});
+
+const time = {
+  timestamps: false,
 };
+
+const User = (sequelize, DataTypes) =>
+  sequelize.define('Users', parameters(DataTypes), time);
 
 module.exports = User;

@@ -15,13 +15,13 @@ const factory = DataTypes => ({
     allowNull: false,
     type: DataTypes.STRING,
   },
-  user_id: {
+  userId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
     references: {
       model: 'Users',
       key: 'id',
     },
+    allowNull: false
   },
   published: {
     allowNull: false,

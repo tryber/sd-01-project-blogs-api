@@ -1,19 +1,27 @@
-const BlogPosts = (sequelize, DataTypes) => {
-  const Post = sequelize.define(
-    'BlogPosts',
-    {
-      title: DataTypes.STRING,
-      content: DataTypes.STRING,
-      user_id: DataTypes.NUMBER,
-      published: DataTypes.DATE,
-      updated: DataTypes.DATE,
+const parameters = (DataTypes) => ({
+  title: {
+    type: DataTypes.STRING,
+    validate: {
+      notNull: false,
     },
-    {
-      updatedAt: 'updated',
-      createdAt: 'published',
+  },
+  content: {
+    type: DataTypes.STRING,
+    validate: {
+      notNull: false,
     },
-  );
-  return Post;
+  },
+  userId: DataTypes.INTEGER,
+  published: DataTypes.DATE,
+  updated: DataTypes.DATE,
+});
+
+const time = {
+  updatedAt: 'updated',
+  createdAt: 'published',
 };
+
+const BlogPosts = (sequelize, DataTypes) =>
+  sequelize.define('BlogPosts', parameters(DataTypes), time);
 
 module.exports = BlogPosts;
