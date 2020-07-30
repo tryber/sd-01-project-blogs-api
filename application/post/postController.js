@@ -36,10 +36,7 @@ exports.updatePost = (req, res, next) => {
   Manager.validateAndUpdatePost({ title, content }, payload, id).then((post) => {
     res.status(200).json(post);
   })
-    .catch((e) => {
-      console.log(e.message);
-      res.status(401).json({ message: 'Algo deu errado', trace: e.trace });
-    });
+    .catch((err) => next(err));
 };
 
 exports.getOnePostById = (req, res, next) => {
@@ -49,10 +46,7 @@ exports.getOnePostById = (req, res, next) => {
     .then((post) => {
       res.status(200).json(post);
     })
-    .catch((e) => {
-      console.log(e.message);
-      res.status(401).json({ message: 'Algo deu errado', trace: e.trace });
-    });
+    .catch((err) => next(err));
 }
 
 exports.getPostsByTerm = (req, res, next) => {
@@ -63,10 +57,7 @@ exports.getPostsByTerm = (req, res, next) => {
       const allPost = post.map((p) => p.data());
       res.status(200).json(allPost);
     })
-    .catch((e) => {
-      console.log(e.message);
-      res.status(401).json({ message: 'Algo deu errado', trace: e.trace });
-    });
+    .catch((err) => next(err));
 }
 
 exports.removePost = (req, res, next) => {
@@ -77,8 +68,5 @@ exports.removePost = (req, res, next) => {
     .then((value) => {
       res.status(200).json(value);
     })
-    .catch((e) => {
-      console.log(e.message);
-      res.status(401).json({ message: e.details, trace: e.trace });
-    });
+    .catch((err) => next(err));
 }

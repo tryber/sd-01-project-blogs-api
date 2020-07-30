@@ -7,10 +7,7 @@ exports.getAllUsers = (req, res, next) => {
     .then((users) => {
       res.status(200).json(users);
     })
-    .catch((e) => {
-      console.log(e.message);
-      res.status(500).json({ message: e.details, trace: e.trace });
-    });
+    .catch((err) => next(err));
 };
 
 exports.createUser = (req, res, next) => {
@@ -18,15 +15,10 @@ exports.createUser = (req, res, next) => {
   new UserRepository()
     .create({ email, displayName, image })
     .then((users) => {
-      s
       const token = serviceToken.generateToken(users.data());
       res.status(200).json({ token });
     })
-    .catch((e) => {
-      console.log(e);
-      console.log(e.name);
-      res.status(500).json({ message: e.details, trace: e.trace });
-    });
+    .catch((err) => next(err));
 };
 
 exports.getOneUserById = (req, res, next) => {
@@ -36,10 +28,7 @@ exports.getOneUserById = (req, res, next) => {
     .then((user) => {
       res.status(200).json(user);
     })
-    .catch((e) => {
-      console.log(e.message);
-      res.status(401).json({ message: e.details, trace: e.trace });
-    });
+    .catch((err) => next(err));
 }
 
 exports.deleteUser = (req, res, next) => {
@@ -50,8 +39,5 @@ exports.deleteUser = (req, res, next) => {
     .then((value) => {
       res.status(200).json(value);
     })
-    .catch((e) => {
-      console.log(e.message);
-      res.status(401).json({ message: e.details, trace: e.trace });
-    })
+    .catch((err) => next(err));
 }

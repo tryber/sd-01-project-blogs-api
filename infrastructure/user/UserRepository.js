@@ -1,5 +1,6 @@
 const UserMapper = require('./UserMapper');
 const { User } = require('../database/models');
+const { handleError } = require('../../manager/handleError');
 
 class UserRepository {
   async getAll() {
@@ -11,31 +12,17 @@ class UserRepository {
       const newUser = await User.create(UserMapper.toDatabase(user));
       return UserMapper.toEntity(newUser);
     } catch (error) {
-      if (error.name === 'SequelizeUniqueConstraintError') {
-        const duplicateEmailError = new Error('DuplicateEmail');
-        duplicateEmailError.details = `Email já está sendo usado.`;
-
-        throw duplicateEmailError;
-      }
-      if (error.name === 'SequelizeValidationError') {
-        const invalidFiledError = new Error('invalidFiledError');
-        invalidFiledError.details = `Campo invalido.`;
-
-        throw invalidFiledError;
-      }
-      throw error;
+      handleError(error);
     }
   }
 
   async isUser(id, idUser) {
     try {
       if (idUser === id) {
-        const unauthorizedError = new Error('unauthorized');
-        unauthorizedError.details = 'Não possui autorização';
-        throw unauthorizedError;
+        handleError(error, id);
       }
     } catch (err) {
-      throw error;
+      throw err;
     }
   }
 
@@ -50,12 +37,7 @@ class UserRepository {
     try {
       return await User.findByPk(id, { rejectOnEmpty: true });
     } catch (error) {
-      if (error.name === 'SequelizeEmptyResultError') {
-        const notFoundError = new Error('NotFoundError');
-        notFoundError.details = `User com identificador ${id} não foi encontrado.`;
-        throw notFoundError;
-      }
-      throw error;
+      handleError(error);
     }
   }
   async _getByEmail(email) {
@@ -64,12 +46,7 @@ class UserRepository {
         where: { email }
       }, { rejectOnEmpty: true });
     } catch (error) {
-      if (error.name === 'SequelizeEmptyResultError') {
-        const notFoundError = new Error('NotFoundError');
-        notFoundError.details = `User com email ${email} não foi encontrado.`;
-        throw notFoundError;
-      }
-      throw error;
+      handleError(error);
     }
   }
   async getByEmail(email) {

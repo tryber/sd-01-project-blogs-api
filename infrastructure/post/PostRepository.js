@@ -3,6 +3,7 @@ const PostMapper = require('./PostMapper');
 
 const { Post } = require('../database/models');
 const { User } = require('../database/models');
+const { handleError } = require('../../manager/handleError');
 
 User.hasMany(Post, { foreignKey: 'id' });
 Post.belongsTo(User, { foreignKey: 'userId' });
@@ -22,12 +23,8 @@ class PostRepository {
   }
 
   async isFromUser(id, post) {
-    try {
-      if (post.userId === id) throw new Error('NotValid');
-      return true;
-    } catch (err) {
-      throw error;
-    }
+    if (post.userId === id) handleError('unauthorized');
+    return true;
   }
 
   async remove(id, idUser) {
@@ -43,14 +40,7 @@ class PostRepository {
         id, { include: [User] },
         { rejectOnEmpty: true });
     } catch (error) {
-      if (error.name === 'SequelizeEmptyResultError') {
-        const notFoundError = new Error('NotFoundError');
-        notFoundError.details = `Post com identificador ${id} não foi encontrado.`;
-
-        throw notFoundError;
-      }
-
-      throw error;
+      handleError(error)
     }
   }
 
@@ -69,15 +59,7 @@ class PostRepository {
         rejectOnEmpty: true
       });
     } catch (error) {
-      console.log('opa')
-      if (error.name === 'SequelizeEmptyResultError') {
-        const notFoundError = new Error('NotFoundError');
-        notFoundError.details = `Nenhum post encontrado com pesquisa por ${term}.`;
-
-        throw notFoundError;
-      }
-
-      throw error;
+      handleError(error)
     }
   }
 
@@ -88,13 +70,7 @@ class PostRepository {
         { where: { id } }
       )
     } catch (error) {
-      if (error.name === 'SequelizeEmptyResultError') {
-        const notFoundError = new Error('NotFoundError');
-        notFoundError.details = `Post com identificador ${id} não foi encontrado.`;
-
-        throw notFoundError;
-      }
-      throw error;
+      handleError(error)
     }
   }
 
