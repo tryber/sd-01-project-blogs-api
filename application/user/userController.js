@@ -21,10 +21,11 @@ exports.createUser = (req, res, next) => {
     .catch((err) => next(err));
 };
 
-exports.getOneUserById = (req, res, next) => {
+exports.getOneUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const data = await new UserRepository().getById(id)
+    const User = new UserRepository();
+    const data = await User.getById(id);
     return res.status(200).json(data);
   } catch (err) {
     next(err)
