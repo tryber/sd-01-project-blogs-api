@@ -21,7 +21,7 @@ const objErrorHandler = {
   },
   SequelizeEmptyResultError: {
     name: 'NotFoundError',
-    detail: `Item com o identificador ${param} não foi encontrado`,
+    detail: `Item não foi encontrado`,
     status: 404,
   },
   InvalidId: {
@@ -36,7 +36,7 @@ const objErrorHandler = {
   }
 }
 
-const objectErrorHandler = (error, param) => {
+const objectErrorHandler = (error) => {
   if (!objErrorHandler[error.name]) {
     error.details = 'Algo deu errado!';
     error.statusResponse = 500;

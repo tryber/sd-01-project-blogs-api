@@ -1,18 +1,16 @@
 const Manager = require('../../manager');
 const PostRepository = require('../../infrastructure/post/PostRepository');
 const service = require('../../infrastructure/post/servicePost');
+const { handleError } = require('../../manager/handleError');
 
 exports.createPost = (req, res, next) => {
   const { payload, body } = req
   const { title, content } = body;
-  if (!service.validatePost({ title, content })) return res.status(500).json({ message: 'Campos invalidos' });
+  if (!service.validatePost({ title, content })) handleError({ name: 'invalidFields' });
   Manager.validateAndCreate({ title, content }, payload).then((post) => {
     res.status(201).json(post);
   })
-    .catch((e) => {
-      console.log(e.message);
-      res.status(401).json({ message: 'Algo deu errado' });
-    });
+    .catch((err) => next(err));
 };
 
 exports.getAllPost = (req, res, next) => {
@@ -22,17 +20,14 @@ exports.getAllPost = (req, res, next) => {
       const allPost = post.map((p) => p.data());
       res.status(200).json(allPost);
     })
-    .catch((e) => {
-      console.log(e.message);
-      res.status(401).json({ message: 'Algo deu errado', trace: e.trace });
-    });
+    .catch((err) => next(err));
 };
 
 exports.updatePost = (req, res, next) => {
   const { payload, body } = req
   const { title, content } = body;
   const { id } = req.params;
-  if (!service.validatePost({ title, content })) return res.status(500).json({ message: 'Campos inválidos' });
+  if (!service.validatePost({ title, content })) handleError({ name: 'invalidFields' });
   Manager.validateAndUpdatePost({ title, content }, payload, id).then((post) => {
     res.status(200).json(post);
   })
