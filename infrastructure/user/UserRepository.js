@@ -15,9 +15,10 @@ class UserRepository {
     return UserMapper.toEntity(newUser);
   }
 
-  async login(email) {
+  async login(login) {
+    const { email } = login;
     const newLogin = await User.findOne({ where: { email } });
-    
+
     return newLogin;
   }
 }
