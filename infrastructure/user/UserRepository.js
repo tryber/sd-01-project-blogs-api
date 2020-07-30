@@ -17,12 +17,8 @@ class UserRepository {
   }
 
   async isUser(id, idUser) {
-    try {
-      if (idUser === id) {
-        handleError(error, id);
-      }
-    } catch (err) {
-      throw err;
+    if (idUser === id) {
+      handleError({ name: 'unauthorized' });
     }
   }
 

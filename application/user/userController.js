@@ -22,18 +22,17 @@ exports.createUser = (req, res, next) => {
 };
 
 exports.getOneUserById = (req, res, next) => {
-  const { id } = req.params;
-  new UserRepository()
-    .getById(id)
-    .then((user) => {
-      res.status(200).json(user);
-    })
-    .catch((err) => next(err));
+  try {
+    const { id } = req.params;
+    const data = await new UserRepository().getById(id)
+    return res.status(200).json(data);
+  } catch (err) {
+    next(err)
+  }
 }
 
 exports.deleteUser = (req, res, next) => {
   const { payload, params } = req;
-  console.log(payload, params)
   new UserRepository()
     .remove(payload.id, params.id)
     .then((value) => {

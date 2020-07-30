@@ -1,6 +1,5 @@
 const UserRepository = require('../infrastructure/user/UserRepository');
 const PostRepository = require('../infrastructure/post/PostRepository');
-const Post = require('../domain/post');
 const { handleError } = require('./handleError');
 
 const verifyData = (data, userData) => {

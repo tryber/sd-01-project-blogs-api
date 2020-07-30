@@ -23,7 +23,7 @@ class PostRepository {
   }
 
   async isFromUser(id, post) {
-    if (post.userId === id) handleError('unauthorized');
+    if (post.userId === id) handleError({ name: 'unauthorized' });
     return true;
   }
 
