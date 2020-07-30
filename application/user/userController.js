@@ -33,3 +33,17 @@ exports.createUser = (req, res) => {
       res.status(500).json({ message: 'Algo deu errado' });
     });
 };
+
+exports.login = (req, res) => {
+  const { email } = req.body;
+
+  const users = new UserRepository;
+  return users.login(email)
+    .then(() => {
+      res.status(200).json({ message: "Logado!" });
+    })
+    .catch((e) => {
+      console.log(e.message);
+      res.status(500).json({ message: 'Algo deu errado' });
+    });
+}
