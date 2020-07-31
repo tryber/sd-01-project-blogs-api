@@ -15,7 +15,9 @@ class UserRepository {
   }
 
   async _getById(id) {
-    return User.findByPk(id, { rejectOnEmpty: true });
+    const user = await User.findByPk(id);
+    if (!user) throw new Error('UserNotFound');
+    return user;
   }
 
   async getById(id) {

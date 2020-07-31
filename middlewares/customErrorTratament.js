@@ -11,11 +11,11 @@ exports.rescueUser = fn => async (req, res, next) => {
   try {
     await fn(req, res, next);
   } catch (err) {
-    switch (err.message || err.name) {
+    switch (err.message) {
       case 'SequelizeUniqueConstraintError':
         return res.status(400).json({ message: 'Usuário já existe' });
 
-      case 'SequelizeEmptyResultError':
+      case 'UserNotFound':
         return res.status(404).json({ message: 'Usuário não encontrado' });
 
       default:
