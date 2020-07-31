@@ -12,7 +12,7 @@ const callGetAll = async (req, res, next) => {
       res.status(200).json(userResponse);
     })
     .catch(error => {
-      console.log('deu errado', error);
+      console.log('Erro inesperado!', error);
       res.status(400).json({ message: error });
     });
 };
@@ -28,7 +28,7 @@ const callPostLogin = async (req, res, next) => {
       });
     })
     .catch(error => {
-      console.log('deu errado', error);
+      console.log('Erro inesperado!', error);
       res.status(401).json({ message: error });
     });
 };

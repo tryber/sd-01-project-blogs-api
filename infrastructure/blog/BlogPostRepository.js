@@ -46,6 +46,30 @@ class BlogPostRepository {
     return { message: 'Blog atualizado com sucesso' };
   }
 
+  static async getByQuery(q) {
+    const posts = await BlogPosts.findAll(
+      { include: [Users] },
+      {
+        where: {
+          [Op.or]: [
+            {
+              title: {
+                [Op.like]: `%${q}%`,
+              },
+            },
+            {
+              content: {
+                [Op.like]: `%${q}%`,
+              },
+            },
+          ],
+        },
+      },
+      
+    );
+    return posts;
+  }
+
   static async deletPostById(idUser) {
     const post = await BlogPostRepository._getById(idUser);
     await post.destroy();
