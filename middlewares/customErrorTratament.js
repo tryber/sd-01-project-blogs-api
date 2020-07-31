@@ -11,9 +11,12 @@ exports.rescueUser = fn => async (req, res, next) => {
   try {
     await fn(req, res, next);
   } catch (err) {
-    switch (err.message) {
+    switch (err.message || err.name) {
       case 'SequelizeUniqueConstraintError':
-        return res.status(404).json({ message: 'Usuário já existe' });
+        return res.status(400).json({ message: 'Usuário já existe' });
+
+      case 'SequelizeEmptyResultError':
+        return res.status(404).json({ message: 'Usuário não encontrado' });
 
       default:
         return res.status(500).json({ error: err.name, message: err.message });
@@ -33,12 +36,12 @@ exports.rescueBlogPost = fn => async (req, res, next) => {
         return res.status(404).json({ message: 'Post não encontrado' });
 
       case 'SequelizeRegexPostNotFound':
-        return res.status(400).json({
+        return res.status(404).json({
           message: 'Nenhum título ou conteúdo inclui os parâmetros passados',
         });
 
       case 'SequelizePostAcessNotValid':
-        return res.status(404).json({
+        return res.status(401).json({
           message: 'Usúario não altorizado a fazer alterações neste post',
         });
 

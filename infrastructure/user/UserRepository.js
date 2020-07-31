@@ -15,12 +15,7 @@ class UserRepository {
   }
 
   async _getById(id) {
-    try {
-      return await User.findByPk(id, { rejectOnEmpty: true });
-    } catch (error) {
-      if (error.name === 'SequelizeEmptyResultError') throw new Error('Usuário não encontrado');
-      throw error;
-    }
+    return User.findByPk(id, { rejectOnEmpty: true });
   }
 
   async getById(id) {

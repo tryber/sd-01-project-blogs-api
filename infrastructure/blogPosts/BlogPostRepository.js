@@ -5,9 +5,6 @@ const BlogPostMapper = require('./BlogPostMapper');
 const { BlogPost } = require('../database/models');
 const { User } = require('../database/models');
 
-// User.hasMany(BlogPost, { foreignKey: 'id' });
-// BlogPost.belongsTo(User, { foreignKey: 'user_id' });
-
 class BlogPostRepository {
   async getAll() {
     const posts = await BlogPost.findAll({
@@ -45,14 +42,9 @@ class BlogPostRepository {
   }
 
   async _getById(id) {
-    try {
-      const post = await BlogPost.findByPk(id, { include: [User] });
-      if (!post) throw new Error('SequelizeEmptyResultError');
-      return post;
-    } catch (error) {
-      if (error.message === 'SequelizeEmptyResultError') throw new Error('Post não encontrado');
-      throw error;
-    }
+    const post = await BlogPost.findByPk(id, { include: [User] });
+    if (!post) throw new Error('SequelizePostNotFound');
+    return post;
   }
 
   async getById(id) {
