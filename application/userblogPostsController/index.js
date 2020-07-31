@@ -1,4 +1,4 @@
-const express = require('./node_modules/express');
+const express = require('express');
 const UserRepository = require('../../infrastructure/user/UserRepository');
 const router = express.Router();
 const rescue = require('../../middleware/rescue');
