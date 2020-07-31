@@ -11,5 +11,5 @@ const createToken = (email) => {
 };
 
 module.exports = {
-    createToken
-}
+  createToken,
+};
