@@ -35,11 +35,6 @@ exports.rescueBlogPost = fn => async (req, res, next) => {
       case 'SequelizePostNotFound':
         return res.status(404).json({ message: 'Post não encontrado' });
 
-      case 'SequelizeRegexPostNotFound':
-        return res.status(404).json({
-          message: 'Nenhum título ou conteúdo inclui os parâmetros passados',
-        });
-
       case 'SequelizePostAcessNotValid':
         return res.status(401).json({
           message: 'Usúario não altorizado a fazer alterações neste post',

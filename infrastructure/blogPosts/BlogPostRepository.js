@@ -31,7 +31,6 @@ class BlogPostRepository {
       },
     });
 
-    if (!posts.length) throw new Error('SequelizeRegexPostNotFound');
     return posts;
   }
 
@@ -98,11 +97,6 @@ class BlogPostRepository {
     const post = await this._removePost(postId);
 
     await post.destroy();
-    return;
-  }
-
-  async removeAllPost({ id }) {
-    await BlogPost.destroy({ where: { user_id: id } });
     return;
   }
 }

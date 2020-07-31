@@ -1,6 +1,5 @@
 const UserMapper = require('./UserMapper');
 const { User } = require('../database/models');
-const manager = require('../../manager');
 
 class UserRepository {
   async getAll() {
@@ -28,8 +27,6 @@ class UserRepository {
 
   async remove(payload) {
     const user = await this._getById(payload.id);
-
-    await manager.removeUserAndPosts(payload);
 
     await user.destroy();
     return;
