@@ -23,7 +23,8 @@ module.exports = {
           model: 'Users',
           key: 'id',
         },
-        allowNull: false
+        allowNull: false,
+        onDelete: 'CASCADE'
       },
       published: {
         allowNull: false,
