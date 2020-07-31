@@ -1,7 +1,7 @@
 const { isTitleValid, isContentValid } = require('../services/dataBlogPostValid');
-const { rescue } = require('./customErrorTratament');
+const { rescueBlogPost } = require('./customErrorTratament');
 
-exports.setPostValid = rescue((req, res, next) => {
+exports.setPostValid = rescueBlogPost((req, res, next) => {
   const { title, content } = req.body;
 
   if (!isTitleValid(title) || !title)

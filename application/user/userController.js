@@ -5,7 +5,7 @@ const User = require('../../domain/user');
 const { createUserValid, deleteUserValid } = require('../../middlewares/userValid');
 const { authorizationValid } = require('../../middlewares/authorizationValid');
 const createJWT = require('../../services/createJWT');
-const { emailAlreadyExist, rescue } = require('../../middlewares/customErrorTratament');
+const { rescueUser } = require('../../middlewares/customErrorTratament');
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ const listUser = async (_req, res, _next) => {
 };
 
 const createUser = async (req, res) => {
-  const { displayName, email, image } = req.body;
+  const { displayName, email, image = 'URL' } = req.body;
 
   const user = new User({ displayName, email, image });
 
@@ -36,13 +36,13 @@ const deleteUser = async (req, res) => {
   res.status(200).json({ message: 'Usuário excluído com sucesso!'});
 };
 
-router.post('/', createUserValid, emailAlreadyExist(createUser));
+router.post('/', createUserValid, rescueUser(createUser));
 
 router.use(authorizationValid);
 
-router.get('/', rescue(listUser));
-router.get('/:id', rescue(detailUser));
-router.delete('/:id', deleteUserValid, rescue(deleteUser));
+router.get('/', rescueUser(listUser));
+router.get('/:id', rescueUser(detailUser));
+router.delete('/:id', deleteUserValid, rescueUser(deleteUser));
 
 module.exports = {
   userRouter: router,

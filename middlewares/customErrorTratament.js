@@ -7,88 +7,41 @@ exports.errorReadingJWT = fn => async (req, res, next) => {
   }
 };
 
-exports.emailAlreadyExist = fn => async (req, res, next) => {
+exports.rescueUser = fn => async (req, res, next) => {
   try {
     await fn(req, res, next);
   } catch (err) {
-    console.log(err.message);
-    if (err.name === 'SequelizeUniqueConstraintError')
-      return res.status(404).json({ message: 'Usuário já existe' });
+    switch (err.message) {
+      case 'SequelizeUniqueConstraintError':
+        return res.status(404).json({ message: 'Usuário já existe' });
 
-    return res.status(500).json({ error: err.name });
+      default:
+        return res.status(500).json({ error: err.name, message: err.message });
+    }
   }
 };
 
-// exports.emailInvalid = fn => async (req, res, next) => {
-//   try {
-//     await fn(req, res, next);
-//   } catch (err) {
-//     console.log(err.message);
-//     if (err.message === 'SequelizeEmailNotFound')
-//       return res.status(400).json({ message: 'Campos inválidos' });
-
-//     console.log(err.message);
-//     return res.status(500).json({ error: err.name });
-//   }
-// };
-
-// exports.invalidQueryString = fn => async (req, res, next) => {
-//   try {
-//     await fn(req, res, next);
-//   } catch (err) {
-//     console.log(err.message);
-//     if (err.message === 'SequelizePostNotFound')
-//       return res.status(400).json({
-//         message: 'Nenhum título ou conteúdo inclui os parâmetros passados'
-//       });
-
-//     return res.status(500).json({ error: err.name });
-//   }
-// };
-
-// exports.postNotFound = fn => async (req, res, next) => {
-//   try {
-//     await fn(req, res, next);
-//   } catch (err) {
-//     console.log(err.message);
-//     if (err.message === 'SequelizePostNotFound')
-//       return res.status(404).json({ message: 'Post não encontrado' });
-
-//     return res.status(500).json({ error: err.name });
-//   }
-// };
-
-// exports.accessDeniedPost = fn => async (req, res, next) => {
-//   try {
-//     await fn(req, res, next);
-//   } catch (err) {
-//     console.log(err.message);
-//     if (err.message === 'SequelizePostAcessNotValid')
-//       return res.status(404).json({
-//         message: 'Usúario não altorizado a fazer alterações neste post',
-//       });
-
-//     return res.status(500).json({ error: err.name });
-//   }
-// };
-
-exports.rescue = fn => async (req, res, next) => {
+exports.rescueBlogPost = fn => async (req, res, next) => {
   try {
     await fn(req, res, next);
   } catch (err) {
     switch (err.message) {
       case 'SequelizeEmailNotFound':
         return res.status(400).json({ message: 'Campos inválidos' });
+
       case 'SequelizePostNotFound':
         return res.status(404).json({ message: 'Post não encontrado' });
+
       case 'SequelizeRegexPostNotFound':
         return res.status(400).json({
-          message: 'Nenhum título ou conteúdo inclui os parâmetros passados'
+          message: 'Nenhum título ou conteúdo inclui os parâmetros passados',
         });
+
       case 'SequelizePostAcessNotValid':
         return res.status(404).json({
           message: 'Usúario não altorizado a fazer alterações neste post',
         });
+
       default:
         return res.status(500).json({ error: err.name, message: err.message });
     }

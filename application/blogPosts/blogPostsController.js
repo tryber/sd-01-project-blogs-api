@@ -3,7 +3,7 @@ const express = require('express');
 const BlogPostRepository = require('../../infrastructure/blogPosts/BlogPostRepository');
 const BlogPost = require('../../domain/blogPost');
 const { authorizationValid } = require('../../middlewares/authorizationValid');
-const { rescue } = require('../../middlewares/customErrorTratament');
+const { rescueBlogPost } = require('../../middlewares/customErrorTratament');
 const { setPostValid } = require('../../middlewares/blogPostValid');
 
 const router = express.Router();
@@ -57,14 +57,14 @@ const deletePost = async (req, res) => {
   res.status(200).send({ message: 'Post removido com sucesso!' });
 };
 
-router.get('/', rescue(listPosts));
-router.get('/search', rescue(listSearchPosts));
-router.get('/:id', rescue(detailPostById));
+router.get('/', rescueBlogPost(listPosts));
+router.get('/search', rescueBlogPost(listSearchPosts));
+router.get('/:id', rescueBlogPost(detailPostById));
 
 router.use(authorizationValid);
 
-router.post('/', setPostValid, rescue(createPost));
-router.delete('/:id', rescue(deletePost));
-router.put('/:id', setPostValid, rescue(updatePost));
+router.post('/', setPostValid, rescueBlogPost(createPost));
+router.delete('/:id', rescueBlogPost(deletePost));
+router.put('/:id', setPostValid, rescueBlogPost(updatePost));
 
 module.exports = { blogPostRouter: router };

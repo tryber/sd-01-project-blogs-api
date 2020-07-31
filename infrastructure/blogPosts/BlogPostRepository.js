@@ -5,8 +5,8 @@ const BlogPostMapper = require('./BlogPostMapper');
 const { BlogPost } = require('../database/models');
 const { User } = require('../database/models');
 
-User.hasMany(BlogPost, { foreignKey: 'id' });
-BlogPost.belongsTo(User, { foreignKey: 'user_id' });
+// User.hasMany(BlogPost, { foreignKey: 'id' });
+// BlogPost.belongsTo(User, { foreignKey: 'user_id' });
 
 class BlogPostRepository {
   async getAll() {
@@ -110,7 +110,7 @@ class BlogPostRepository {
   }
 
   async removeAllPost({ id }) {
-    await await BlogPost.destroy({ where: { user_id: id } });
+    await BlogPost.destroy({ where: { user_id: id } });
     return;
   }
 }

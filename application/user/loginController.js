@@ -2,7 +2,7 @@ const express = require('express');
 
 const UserRepository = require('../../infrastructure/user/UserRepository');
 const createJWT = require('../../services/createJWT');
-const { emailInvalid } = require('../../middlewares/customErrorTratament');
+const { rescueUser } = require('../../middlewares/customErrorTratament');
 const { loginValid } = require('../../middlewares/loginValid');
 
 const router = express.Router();
@@ -14,6 +14,6 @@ const login = async (req, res) => {
   res.status(201).json({ token });
 };
 
-router.post('/', loginValid, emailInvalid(login));
+router.post('/', loginValid, rescueUser(login));
 
 module.exports = { loginRouter: router };
