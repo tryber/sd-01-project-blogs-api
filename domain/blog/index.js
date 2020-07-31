@@ -12,11 +12,6 @@ const BlogPost = attributes({
   user_id: Number,
   updatedAt: Date,
   createdAt: Date,
-})(class BlogPost {
-  getData(){
-    const { title, content, user_id, updatedAt, createdAt } = this
-    return { title, content, user_id, updatedAt, createdAt }
-  }
-});
+})(class BlogPost {});
 
 module.exports = BlogPost;

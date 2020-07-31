@@ -4,5 +4,5 @@ const user = require('../application/userblogPostsController');
 module.exports = {
   login,
   post,
-  user
+  user,
 };

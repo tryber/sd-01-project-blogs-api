@@ -7,7 +7,7 @@ const BlogPostMapper = {
   },
 
   toDatabase(survivor) {
-    const {id, title, content,  userId } = survivor;
+    const { id, title, content, userId } = survivor;
     return { id, title, content, userId };
   },
 };

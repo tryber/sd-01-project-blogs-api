@@ -24,9 +24,9 @@ module.exports = {
           password: '321456',
         },
       ],
-      {},
+      {}
     );
   },
 
-  down: async queryInterface => queryInterface.bulkDelete('Users', null, {}),
+  down: async (queryInterface) => queryInterface.bulkDelete('Users', null, {}),
 };

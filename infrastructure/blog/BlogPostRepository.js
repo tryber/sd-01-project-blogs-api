@@ -64,8 +64,7 @@ class BlogPostRepository {
             },
           ],
         },
-      },
-      
+      }
     );
     return posts;
   }

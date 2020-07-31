@@ -1,6 +1,6 @@
 'use strict';
 
-const factory = DataTypes => ({
+const factory = (DataTypes) => ({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -29,5 +29,8 @@ const factory = DataTypes => ({
 module.exports = {
   up: async (queryInterface, DataTypes) =>
     queryInterface.createTable('Users', factory(DataTypes)),
-  down: async queryInterface => queryInterface.dropTable('BlogPosts').then(queryInterface.dropTable('Users'))
+  down: async (queryInterface) =>
+    queryInterface
+      .dropTable('BlogPosts')
+      .then(queryInterface.dropTable('Users')),
 };
