@@ -11,7 +11,7 @@ const callPostPost = async (req, res) => {
   const { id: userId } = req.user;
   const conteiner = { title, content, userId };
   return BlogPostRepository.createPost(conteiner)
-    .then((message) => res.status(200).json({ message }))
+    .then(message => res.status(200).json({ message }))
     .catch((error) => {
       console.error('Erro inesperado!', error);
       res.status(401).json({ message: error });
@@ -20,7 +20,7 @@ const callPostPost = async (req, res) => {
 
 const callGetPost = async (req, res) => {
   return BlogPostRepository.getAll()
-    .then((response) => res.status(200).json(response))
+    .then(response => res.status(200).json(response))
     .catch((error) => {
       console.error('Erro inesperado!', error);
       res.status(400).json({ message: error });
@@ -32,7 +32,7 @@ const callPutPostById = async (req, res) => {
   const { id: userId } = req.params;
   const obj = { title, content, userId };
   return BlogPostRepository.updateBlog(obj)
-    .then((response) => res.status(200).json(response))
+    .then(response => res.status(200).json(response))
     .catch((error) => {
       console.error('Erro inesperado!', error);
       res.status(400).json({ message: error });
@@ -42,7 +42,7 @@ const callPutPostById = async (req, res) => {
 const callGetPostById = async (req, res) => {
   const { id: userId } = req.params;
   return BlogPostRepository.getById(userId)
-    .then((response) => res.status(200).json(response))
+    .then(response => res.status(200).json(response))
     .catch((error) => {
       console.error('Erro inesperado!', error);
       res.status(400).json({ message: error });
@@ -52,7 +52,7 @@ const callGetPostById = async (req, res) => {
 const callgetByQueryParams = async (req, res) => {
   const { q } = req.query;
   return BlogPostRepository.getByQuery(q)
-    .then((msg) => res.status(200).json(msg))
+    .then(msg => res.status(200).json(msg))
     .catch((error) => {
       console.error('Erro inesperado!', error);
       res.status(400).json({ message: error });
@@ -62,7 +62,7 @@ const callgetByQueryParams = async (req, res) => {
 const callDeletePost = async (req, res) => {
   const { id } = req.params;
   return BlogPostRepository.deletPostById(id)
-    .then((msg) => res.status(200).json(msg))
+    .then(msg => res.status(200).json(msg))
     .catch((error) => {
       console.error('Erro inesperado!', error);
       res.status(400).json({ message: error });

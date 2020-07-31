@@ -24,7 +24,7 @@ const User = attributes({
       const { id, displayName, email, image } = this;
       return { id, displayName, email, image };
     }
-  }
+  },
 );
 
 module.exports = User;

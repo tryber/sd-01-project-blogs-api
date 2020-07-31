@@ -15,8 +15,8 @@ class BlogPostRepository {
     return posts.map(({ dataValues }) => dataValues);
   }
 
-  static async _getByPK() {
-    const user = await BlogPosts.findByPk(user_id);
+  static async _getByPK(id) {
+    const user = await BlogPosts.findByPk(id);
     return user;
   }
 
@@ -41,7 +41,7 @@ class BlogPostRepository {
         where: {
           userId,
         },
-      }
+      },
     );
     return { message: 'Blog atualizado com sucesso' };
   }
@@ -64,7 +64,7 @@ class BlogPostRepository {
             },
           ],
         },
-      }
+      },
     );
     return posts;
   }

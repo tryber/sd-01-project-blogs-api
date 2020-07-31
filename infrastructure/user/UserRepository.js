@@ -45,11 +45,9 @@ class UserRepository {
 
   async updateUser(obj) {
     const { displayName, email, image, password } = obj;
-    const Users = await this._getByEmail(email);
-    if (!Users) {
-      return { message: 'Usuário já existe' };
-    }
-    return await Users.create({ displayName, email, image, password });
+    const users = await this._getByEmail(email);
+    if (!users) return { message: 'Usuário já existe' };
+    return Users.create({ displayName, email, image, password });
   }
 
   async getByEmail(email) {
