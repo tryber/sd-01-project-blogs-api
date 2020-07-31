@@ -51,8 +51,8 @@ class UserRepository {
   }
 
   async getByEmail(email) {
-    const Users = await this._getByEmail(email);
-    return UserMapper.toEntity(Users);
+    const users = await this._getByEmail(email);
+    return UserMapper.toEntity(users);
   }
 
   async deleteUserById(id) {

@@ -32,7 +32,7 @@ const callUserPost = async (req, res) => {
   const obj = { displayName, email, image, password };
   const User = new UserRepository();
   return User.updateUser(obj)
-    .then(userResponse => {
+    .then((userResponse) => {
       const token = createToken(userResponse.email);
       return res.status(200).json({
         token,
@@ -44,7 +44,7 @@ const callUserPost = async (req, res) => {
     });
 };
 
-const callUserDelete = async (req, res) => {
+const callUserDelete = async (_req, res) => {
   const User = new UserRepository();
   return User.getAll()
     .then(userResponse => res.status(200).json(userResponse))

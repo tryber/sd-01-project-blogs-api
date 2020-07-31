@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 
 const BlogPostRepository = require('../../infrastructure/blog/BlogPostRepository');
@@ -18,14 +19,13 @@ const callPostPost = async (req, res) => {
     });
 };
 
-const callGetPost = async (req, res) => {
-  return BlogPostRepository.getAll()
+const callGetPost = async (_req, res) =>
+  BlogPostRepository.getAll()
     .then(response => res.status(200).json(response))
     .catch((error) => {
       console.error('Erro inesperado!', error);
       res.status(400).json({ message: error });
     });
-};
 
 const callPutPostById = async (req, res) => {
   const { title, content } = req.body;

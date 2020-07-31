@@ -24,7 +24,7 @@ class BlogPostRepository {
     return BlogPosts.findByPk(
       id,
       { include: [Users] },
-      { rejectOnEmpty: true }
+      { rejectOnEmpty: true },
     );
   }
 

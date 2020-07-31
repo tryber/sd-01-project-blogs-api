@@ -21,7 +21,7 @@ const callPostLogin = async (req, res, next) => {
   const { email } = req.body;
   const User = new UserRepository();
   return User.getByEmail(email)
-    .then(userResponse => {
+    .then((userResponse) => {
       const token = createToken(userResponse.email);
       return res.status(200).json({
         token,
