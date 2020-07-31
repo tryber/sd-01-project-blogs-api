@@ -7,7 +7,7 @@ const { createToken } = require('../../services');
 
 const router = express.Router();
 
-const callGetAll = async (req, res, next) => {
+const callGetAll = async (req, res) => {
   const User = new UserRepository();
   return User.getAll()
     .then(userResponse => res.status(200).json(userResponse))
@@ -17,7 +17,7 @@ const callGetAll = async (req, res, next) => {
     });
 };
 
-const callPostLogin = async (req, res, next) => {
+const callPostLogin = async (req, res) => {
   const { email } = req.body;
   const User = new UserRepository();
   return User.getByEmail(email)
