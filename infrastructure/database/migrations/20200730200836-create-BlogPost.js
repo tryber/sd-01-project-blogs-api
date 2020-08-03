@@ -38,7 +38,7 @@ const obj = (Sequelize) => ({
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('BlogPosts', obj(Sequelize));
+    return queryInterface.createTable('BlogPosts', obj(sequelize));
   },
 
   down: async (queryInterface, Sequelize) => {
