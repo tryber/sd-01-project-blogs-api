@@ -15,8 +15,7 @@ class UserRepository {
     return UserMapper.toEntity(newUser);
   }
 
-  async login(login) {
-    const { email } = login;
+  async login({ email }) {
     const newLogin = await User.findOne({ where: { email } });
 
     return UserMapper.toEntity(newLogin);
