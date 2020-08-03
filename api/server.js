@@ -1,6 +1,8 @@
 const express = require('express');
 
-const { validLoginMiddleware } = require('../middlewares/user/login');
+const { validLoginMiddleware } = require('../middlewares/login');
+const { deleteUserValid, createUserValid } = require('../middlewares/userValid');
+const { authorizationValid } = require('../middlewares/authorizationValid');
 
 const bodyParser = require('body-parser');
 
@@ -12,12 +14,15 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/user', getAllUser);
+app.post('/user', createUserValid, createUser);
 app.get('/user/:id', UserById);
-
-app.post('/user', createUser);
 app.post('/login', validLoginMiddleware, login);
 
-app.delete('/user/:id', deleteUser);
+app.use(authorizationValid);
+
+app.get('/user', getAllUser);
+app.delete('/user/:id', deleteUserValid, deleteUser);
+
+
 
 module.exports = app;
