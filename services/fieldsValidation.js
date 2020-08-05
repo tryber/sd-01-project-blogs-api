@@ -4,6 +4,6 @@ exports.isEmailValid = (email = '') => {
 }
 
 exports.isPasswordValid = (password = '') => {
-  regex = /(^[0-9]{6,63})+$/;
+  const regex = /(^[0-9]{6,63})+$/;
   return password.match(regex);
 }

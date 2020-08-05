@@ -1,42 +1,42 @@
-'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("BlogPost", {
-      blog_id: {
+    return queryInterface.createTable('BlogPosts', {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
         autoIncrement: true,
         allowNull: false,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
       },
       title: {
-        allowNull: false,
         type: Sequelize.STRING,
+        allowNull: false,
       },
       content: {
-        allowNull: false,
         type: Sequelize.STRING,
-      },
-      user_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Users',
-          key: 'id'
-        },
-        allowNull: false
+        allowNull: false,
       },
       published: {
         type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: new Date(),
       },
       updated: {
         type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: new Date(),
+      },
+      user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
       },
     });
   },
 
-  down: async (queryInterface, _Sequelize) => {
-    return queryInterface.dropTable('BlogPost');
-  }
+  down: async (queryInterface) => {
+    return queryInterface.dropTable('BlogPosts');
+  },
 };
