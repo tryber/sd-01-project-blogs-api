@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = 'pjo33';
+const secret = 'trybe';
 
 module.exports = (email) => {
   const jwtConfig = {

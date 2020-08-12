@@ -1,7 +1,7 @@
 const express = require('express');
-const rescue = require('../rescue');
-const validateJWT = require('../middlewares/validateJWT');
-const PostModel = require('../infrastructure/post');
+const rescue = require('../../rescue');
+const validateJWT = require('../../middlewares/validateJWT');
+const PostModel = require('../../infrastructure/post');
 const router = express.Router();
 
 const createPost = async (req, res) => {

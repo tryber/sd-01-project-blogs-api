@@ -1,8 +1,8 @@
 const express = require('express');
-const rescue = require('../rescue');
-const validateJWT = require('../middlewares/validateJWT');
-const generateJWT = require('../infrastructure/service/generateJWT');
-const UserModel = require('../infrastructure/user');
+const rescue = require('../../rescue');
+const validateJWT = require('../../middlewares/validateJWT');
+const generateJWT = require('../../infrastructure/service/generateJWT');
+const UserModel = require('../../infrastructure/user');
 const router = express.Router();
 
 const getUsers = async (_req, res) => {

@@ -1,6 +1,6 @@
 const express = require('express');
-const generateJWT = require('../infrastructure/service/generateJWT');
-const UserModel = require('../infrastructure/user');
+const generateJWT = require('../../infrastructure/service/generateJWT');
+const UserModel = require('../../infrastructure/user');
 const router = express.Router();
 
 const regex = /^[\w+.]+@\w+.\w{2,}(?:.\w{2})?$/;

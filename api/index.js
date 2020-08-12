@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { user, login, post } = require('../controllers');
+const { user, login, post } = require('../application/controllers');
 
 const app = express();
 
